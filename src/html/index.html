@@ -22,14 +22,18 @@
   <nav class="navbar bg-light">
     <div class="container-fluid">
       <a class="navbar-brand">Bolsa de Martin</a>
-      <div id="unloggedOptions">
+      <div class="unlogged">
         <a role="button" data-bs-toggle="modal" data-bs-target="#loginModal">Log In</a>
         <a role="button" data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</a>
+      </div>
+      <div class="logged d-none">
+        <div id="username"></div>
+        <a role="button">Log Out</a>
       </div>
     </div>
   </nav>
   <main class="container-fluid" id="mainPanel">
-    <div class="row align-items-md-stretch">
+    <div class="row align-items-md-stretch unlogged">
       <div class="col-md-12">
         <div class="h-100 p-5 text-white bg-dark rounded-3">
           <h2>You´re not logged in</h2>
@@ -44,12 +48,17 @@
         </div>
       </div>
     </div>
+
+
+    <div id="loggedContainer" class="row align-items-md-stretch logged">
+      aaaa
+    </div>
   </main>
 
 
 
   <!-- Modal -->
-  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal fade unlogged" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
@@ -80,7 +89,7 @@
     </div>
   </div>
 
-  <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+  <div class="modal fade unlogged" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">

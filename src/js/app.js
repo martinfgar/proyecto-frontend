@@ -10,9 +10,26 @@ function getCookie(name) {
 }
 
 
+
+var logged = false
+var loginModal = new bootstrap.Modal(document.getElementById('loginModal'), {
+    keyboard: false
+  })
+
+function hideLogin(){
+    loginModal.hide();
+    [...document.querySelectorAll('.modal-backdrop')].forEach(x => x.remove())
+}
+
 if (getCookie('access_token') != null){
-    document.getElementById('mainPanel').insertAdjacentHTML('beforeend',getCookie('access_token'))
+    logged = true;
+    document.getElementById('username').innerText = getCookie('user');
+    [...document.querySelectorAll('.unlogged')].forEach(elem => elem.classList.add('d-none'));
+    [...document.querySelectorAll('.logged')].forEach(elem => elem.classList.remove('d-none'));
+    document.getElementById('loggedContainer').insertAdjacentHTML('beforeend',getCookie('access_token'))
 }else{
+    [...document.querySelectorAll('.unlogged')].forEach(elem => elem.classList.remove('d-none'));
+    [...document.querySelectorAll('.logged')].forEach(elem => elem.classList.add('d-none'));
     document.getElementById('mainPanel').insertAdjacentHTML('beforeend','patata')
 }
 
@@ -31,7 +48,10 @@ document.getElementById('loginForm').addEventListener('submit',async function(ev
     event.preventDefault()
     document.getElementById('loginAlert').classList.add('d-none')
     const res = await logIn()
+    console.log(res)
     if (res.access_token != undefined){
+        hideLogin()
+        document.cookie = `user = ${res.user.name}; max-age=15`
         document.cookie = `access_token = ${res.access_token}; max-age=15`
     }else{
         document.getElementById('loginAlert').classList.remove('d-none')
@@ -39,6 +59,17 @@ document.getElementById('loginForm').addEventListener('submit',async function(ev
     }
 })
 
-chrome.cookies.onChanged.addListener((changedCookie) => {
-    console.log(JSON.stringify(changedCookie.cookie))
-})
+
+//Listener para cambiar el estado de los elementos cuando se está logueado o no
+var cookieListener = setInterval(() => {
+    if (getCookie('access_token') != null && !logged){
+        logged = true;
+        document.getElementById('username').innerText = getCookie('user');
+        [...document.querySelectorAll('.unlogged')].forEach(elem => elem.classList.add('d-none'));
+        [...document.querySelectorAll('.logged')].forEach(elem => elem.classList.remove('d-none'));
+    }else if (getCookie('access_token') == null && logged){
+        [...document.querySelectorAll('.unlogged')].forEach(elem => elem.classList.remove('d-none'));
+        [...document.querySelectorAll('.logged')].forEach(elem => elem.classList.add('d-none'));
+        logged = false
+    }
+},100)
