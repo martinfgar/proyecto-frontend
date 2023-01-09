@@ -16,21 +16,14 @@ var loginModal = new bootstrap.Modal(document.getElementById('loginModal'), {
     keyboard: false
   })
 
-function hideLogin(){
-    loginModal.hide();
-    [...document.querySelectorAll('.modal-backdrop')].forEach(x => x.remove())
-}
+
+
 
 if (getCookie('access_token') != null){
     logged = true;
     document.getElementById('username').innerText = getCookie('user');
-    [...document.querySelectorAll('.unlogged')].forEach(elem => elem.classList.add('d-none'));
-    [...document.querySelectorAll('.logged')].forEach(elem => elem.classList.remove('d-none'));
-    document.getElementById('loggedContainer').insertAdjacentHTML('beforeend',getCookie('access_token'))
 }else{
-    [...document.querySelectorAll('.unlogged')].forEach(elem => elem.classList.remove('d-none'));
-    [...document.querySelectorAll('.logged')].forEach(elem => elem.classList.add('d-none'));
-    document.getElementById('mainPanel').insertAdjacentHTML('beforeend','patata')
+    loginModal.show()
 }
 
 async function logIn(){
@@ -41,8 +34,22 @@ async function logIn(){
     })
     return res.json()
 }
-
-
+async function fetchEmpresas(){
+    const res = await fetch(`http://localhost:8000/api/empresas`,{
+        headers: {
+            Authentication: 'Bearer '+getCookie('access_token')
+        }
+    })
+    return res.json()
+}
+async function fetchStockData(id_empresa){
+    const res = await fetch(`http://localhost:8000/api/acciones/empresa/${id_empresa}`,{
+        headers: {
+            Authentication: 'Bearer '+getCookie('access_token')
+        }
+    })
+    return res.json()
+}
 
 document.getElementById('loginForm').addEventListener('submit',async function(event){
     event.preventDefault()
