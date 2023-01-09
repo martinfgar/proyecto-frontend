@@ -9,15 +9,10 @@ function getCookie(name) {
     return null;
 }
 
-
-
 var logged = false
 var loginModal = new bootstrap.Modal(document.getElementById('loginModal'), {
     keyboard: false
   })
-
-
-
 
 if (getCookie('access_token') != null){
     logged = true;
