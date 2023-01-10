@@ -70,6 +70,9 @@ document.getElementById('loginForm').addEventListener('submit',async function(ev
     }
 })
 
+document.getElementById('saveSettingsBtn').addEventListener('click', () => {
+    
+})
 
 //Listener para cambiar el estado de los elementos cuando se está logueado o no
 var cookieListener = setInterval(() => {

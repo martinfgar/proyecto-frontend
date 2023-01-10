@@ -46,7 +46,7 @@
         <div class="card w-100">
           <img src="../img/iberdrola.jpg" class="card-img-top" alt="Iberdrola">
           <div class="card-body text-center">
-            <h5 class="card-title stock-price text-success" id="price-iberdrola">21.3</h5>
+            <h5 class="card-title stock-price text-success" id="price-iberdrola">0</h5>
             <p class="card-text"></p>
             <a role="button" id="btn-iberdrola" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
           </div>
@@ -56,7 +56,7 @@
         <div class="card w-100" id="cardbbva">
           <img src="../img/bbva.jpg" class="card-img-top" alt="BBVA">
           <div class="card-body text-center">
-            <h5 class="card-title stock-price text-success" id="price-bbva">21.3</h5>
+            <h5 class="card-title stock-price text-success" id="price-bbva">0</h5>
             <p class="card-text"></p>
             <a role="button" id="btn-bbva" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
           </div>
@@ -66,7 +66,7 @@
         <div class="card w-100">
           <img src="../img/inditex.jpg" class="card-img-top" alt="Inditex">
           <div class="card-body text-center">
-            <h5 class="card-title stock-price text-success" id="price-inditex">21.3</h5>
+            <h5 class="card-title stock-price text-success" id="price-inditex">0</h5>
             <p class="card-text"></p>
             <a role="button" id="btn-inditex" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
           </div>
@@ -76,7 +76,7 @@
         <div class="card w-100">
           <img src="../img/santander.jpg" class="card-img-top" alt="Santander">
           <div class="card-body text-center">
-            <h5 class="card-title stock-price text-success" id="price-santander">21.3</h5>
+            <h5 class="card-title stock-price text-success" id="price-santander">0</h5>
             <p class="card-text"></p>
             <a role="button" id="btn-santander" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
           </div>
@@ -150,6 +150,7 @@
     </div>
   </div>
 
+<!--Modal settings-->
   <div class="modal fade" id="settingsModal" aria-labelledby="settingsModalLabel" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -167,17 +168,17 @@
           </div>
           <div class="row" id="targetImagenes">
             <div class="col-6 selectBox" id="unselectedStocks">
-              <img class="w-100 configLogo" src="../img/bbva.jpg" alt="">
-              <img class="w-100 configLogo" src="../img/iberdrola.jpg" alt="">
-              <img class="w-100 configLogo" src="../img/inditex.jpg" alt="">
-              <img class="w-100 configLogo" src="../img/santander.jpg" alt="">
+              <img class="w-100 configLogo" src="../img/bbva.jpg" alt="" id="bbva">
+              <img class="w-100 configLogo" src="../img/iberdrola.jpg" alt="" id="iberdrola">
+              <img class="w-100 configLogo" src="../img/inditex.jpg" alt="" id="inditex">
+              <img class="w-100 configLogo" src="../img/santander.jpg" alt="" id="santander">
             </div>
             <div class="col-6 selectBox" id="selectedStocks">
             </div>
           </div>
           <div class="row">
             <div class="col-12 text-center">
-              <button class="btn btn-primary">Guardar</button>
+              <button class="btn btn-primary" id="saveSettingsBtn">Guardar</button>
             </div>
           </div>
 
