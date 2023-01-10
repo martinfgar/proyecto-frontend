@@ -24,6 +24,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js"
     integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+    integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"
+    integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="../sass/style.sass">
 </head>
 
@@ -37,8 +41,8 @@
     </div>
   </nav>
   <main class="container-fluid" id="mainPanel">
-    <div class="row g-5">
-      <div class="col-sm-6 col-md-4  col-lg-3">
+    <div class="row">
+      <div class="col-sm-6 col-md-4 col-lg-3" id="cardiberdrola">
         <div class="card w-100">
           <img src="../img/iberdrola.jpg" class="card-img-top" alt="Iberdrola">
           <div class="card-body text-center">
@@ -49,35 +53,32 @@
         </div>
       </div>
       <div class="col-sm-6 col-md-4  col-lg-3">
-        <div class="card w-100">
-          <img src="../img/iberdrola.jpg" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-              content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+        <div class="card w-100" id="cardbbva">
+          <img src="../img/bbva.jpg" class="card-img-top" alt="BBVA">
+          <div class="card-body text-center">
+            <h5 class="card-title stock-price text-success" id="price-bbva">21.3</h5>
+            <p class="card-text"></p>
+            <a role="button" id="btn-bbva" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
           </div>
         </div>
       </div>
-      <div class="col-sm-6  col-md-4  col-lg-3">
+      <div class="col-sm-6  col-md-4 col-lg-3" id="cardinditex">
         <div class="card w-100">
-          <img src="../img/iberdrola.jpg" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-              content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+          <img src="../img/inditex.jpg" class="card-img-top" alt="Inditex">
+          <div class="card-body text-center">
+            <h5 class="card-title stock-price text-success" id="price-inditex">21.3</h5>
+            <p class="card-text"></p>
+            <a role="button" id="btn-inditex" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
           </div>
         </div>
       </div>
-      <div class="col-sm-6 col-md-4 col-lg-3">
+      <div class="col-sm-6 col-md-4 col-lg-3" id="cardsantander">
         <div class="card w-100">
-          <img src="../img/iberdrola.jpg" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-              content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+          <img src="../img/santander.jpg" class="card-img-top" alt="Santander">
+          <div class="card-body text-center">
+            <h5 class="card-title stock-price text-success" id="price-santander">21.3</h5>
+            <p class="card-text"></p>
+            <a role="button" id="btn-santander" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
           </div>
         </div>
       </div>
@@ -93,8 +94,9 @@
         <div class="modal-header">
           <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
-              <a class="nav-link text-primary active" aria-current="page" id="logInBtn" data-bs-toggle="tab" href="#logInTab"
-                role="tab" aria-controls="logInTab" aria-selected="true">Log In <i class="fa-solid fa-right-to-bracket"></i></a>
+              <a class="nav-link text-primary active" aria-current="page" id="logInBtn" data-bs-toggle="tab"
+                href="#logInTab" role="tab" aria-controls="logInTab" aria-selected="true">Log In <i
+                  class="fa-solid fa-right-to-bracket"></i></a>
             </li>
             <li class="nav-item">
               <a class="nav-link text-success" id="signUpBtn" data-bs-toggle="tab" href="#signUpTab" role="tab"
@@ -110,8 +112,7 @@
             <form id="loginForm">
               <div class="mb-3">
                 <label for="emailLogIn" class="form-label">Email address</label>
-                <input type="email" class="form-control" name="email" id="emailLogIn"
-                  aria-describedby="emailHelp">
+                <input type="email" class="form-control" name="email" id="emailLogIn" aria-describedby="emailHelp">
                 <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
               </div>
               <div class="mb-3">
@@ -129,8 +130,7 @@
                 <label for="name" class="form-label">Name</label>
                 <input type="text" class="form-control" name="name" id="name">
                 <label for="emailSignUp" class="form-label">Email address</label>
-                <input type="email" class="form-control" name="email" id="emailSignUp"
-                  aria-describedby="emailHelp">
+                <input type="email" class="form-control" name="email" id="emailSignUp" aria-describedby="emailHelp">
                 <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
               </div>
               <div class="mb-3">
@@ -153,7 +153,33 @@
   <div class="modal fade" id="settingsModal" aria-labelledby="settingsModalLabel" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
         <div class="modal-body">
+          <div class="row text-center">
+            <div class="col-6 text-danger">
+              <h1><i class="fa-solid fa-eye-slash"></i></h1>
+            </div>
+            <div class="col-6 text-success">
+              <h1><i class="fa-solid fa-eye"></i></h1>
+            </div>
+          </div>
+          <div class="row" id="targetImagenes">
+            <div class="col-6 selectBox" id="unselectedStocks">
+              <img class="w-100 configLogo" src="../img/bbva.jpg" alt="">
+              <img class="w-100 configLogo" src="../img/iberdrola.jpg" alt="">
+              <img class="w-100 configLogo" src="../img/inditex.jpg" alt="">
+              <img class="w-100 configLogo" src="../img/santander.jpg" alt="">
+            </div>
+            <div class="col-6 selectBox" id="selectedStocks">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 text-center">
+              <button class="btn btn-primary">Guardar</button>
+            </div>
+          </div>
 
         </div>
       </div>

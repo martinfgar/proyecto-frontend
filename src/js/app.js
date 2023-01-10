@@ -20,7 +20,16 @@ if (getCookie('access_token') != null){
 }else{
     loginModal.show()
 }
-
+$( function() {
+    $( ".configLogo" ).draggable({
+        scroll: false,
+        axis: "x",
+        containment: '#targetImagenes',
+    });
+    $("#selectedStocks").droppable({
+        accept: ".configLogo"
+    })
+  } );
 async function logIn(){
     var data = new FormData(document.getElementById('loginForm'))
     const res = await fetch('http://localhost:8000/api/login',{
