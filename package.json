@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "parcel serve src/html/index.html --public-url / --dist-dir dist --open",
-    "build": "parce build src/html/index.html --public-url . --dist-dir dist"
+    "build": "parcel build src/html/index.html --public-url . --dist-dir dist"
   },
   "author": "",
   "license": "ISC",

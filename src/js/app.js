@@ -8,12 +8,13 @@ function getCookie(name) {
     }
     return null;
 }
-
 var logged = false
 var loginModal = new bootstrap.Modal(document.getElementById('loginModal'), {
     keyboard: false
   })
-
+var settingsModal = new bootstrap.Modal(document.getElementById('settingsModal'),{
+    keyboard: false
+})
 if (getCookie('access_token') != null){
     logged = true;
     document.getElementById('username').innerText = getCookie('user');
@@ -52,7 +53,7 @@ $( function() {
     })
   } );
 
-  if (/Android|iPhone/i.test(navigator.userAgent)) {
+if (/Android|iPhone/i.test(navigator.userAgent)) {
     [...document.getElementsByClassName('configLogo')].forEach(elem => {
         elem.addEventListener('click',() => {
             const id= event.currentTarget.parentNode.id
@@ -64,6 +65,17 @@ $( function() {
         })
     })
 }
+
+
+async function register(){
+    var data = new FormData(document.getElementById('signUpForm'))
+    const res = await fetch('http://localhost:8000/api/register',{
+        method: 'POST',
+        body: data
+    })
+    return res.json()
+}
+
 async function logIn(){
     var data = new FormData(document.getElementById('loginForm'))
     const res = await fetch('http://localhost:8000/api/login',{
@@ -93,19 +105,30 @@ async function fetchStockData(id_empresa){
 
 
 
-
+document.getElementById('signUpForm').addEventListener('submit', async function(event){
+    event.preventDefault()  
+    const res = await register()
+    if (res.access_token != undefined){
+        //loginModal.hide()     
+        console.log(res.access_token)
+        document.cookie = `user = ${res.user.name}; max-age=15`
+        document.cookie = `access_token = ${res.access_token}; max-age=15`
+    }else{
+        document.getElementById('loginAlert').classList.remove('d-none')
+        document.getElementById('loginAlert').innerText = res.message
+    }
+})
 
 
 
 document.getElementById('loginForm').addEventListener('submit',async function(event){
     event.preventDefault()
-    document.getElementById('loginAlert').classList.add('d-none')
     const res = await logIn()
     console.log(res)
     if (res.access_token != undefined){
-        hideLogin()
+        console.log(res.access_token)
         document.cookie = `user = ${res.user.name}; max-age=15`
-        document.cookie = `access_token = ${res.access_token}; max-age=15`
+        document.cookie = `access_token = ${res.access_token}; max-age=7200`
     }else{
         document.getElementById('loginAlert').classList.remove('d-none')
         document.getElementById('loginAlert').innerText = res.message
@@ -123,13 +146,11 @@ document.getElementById('saveSettingsBtn').addEventListener('click', () => {
 //Listener para cambiar el estado de los elementos cuando se está logueado o no
 var cookieListener = setInterval(() => {
     if (getCookie('access_token') != null && !logged){
-        logged = true;
-        document.getElementById('username').innerText = getCookie('user');
-        [...document.querySelectorAll('.unlogged')].forEach(elem => elem.classList.add('d-none'));
-        [...document.querySelectorAll('.logged')].forEach(elem => elem.classList.remove('d-none'));
+        logged = true
+        document.getElementById('username').innerText = getCookie('user')   
     }else if (getCookie('access_token') == null && logged){
-        [...document.querySelectorAll('.unlogged')].forEach(elem => elem.classList.remove('d-none'));
-        [...document.querySelectorAll('.logged')].forEach(elem => elem.classList.add('d-none'));
+        document.getElementById('username').innerText = ''
         logged = false
+        loginModal.show()
     }
 },100)
