@@ -25,9 +25,22 @@ $( function() {
         scroll: false,
         axis: "x",
         containment: '#targetImagenes',
+        revert: "invalid",
     });
+    $(".configLogo").sortable({
+        axis: "x"
+    })
     $("#selectedStocks").droppable({
-        accept: ".configLogo"
+        accept: ".configLogo",
+        drop: function(e,ui){
+            $(e.target).append($(ui.draggable).detach().css({'top':'','left':''}))
+        }
+    })
+    $("#unselectedStocks").droppable({
+        accept: ".configLogo",
+        drop: function(e,ui){
+            $(e.target).append($(ui.draggable).detach().css({'top':'','left':''}))
+        }
     })
   } );
 async function logIn(){
@@ -55,6 +68,14 @@ async function fetchStockData(id_empresa){
     return res.json()
 }
 
+
+
+
+
+
+
+
+
 document.getElementById('loginForm').addEventListener('submit',async function(event){
     event.preventDefault()
     document.getElementById('loginAlert').classList.add('d-none')
@@ -71,7 +92,10 @@ document.getElementById('loginForm').addEventListener('submit',async function(ev
 })
 
 document.getElementById('saveSettingsBtn').addEventListener('click', () => {
-    
+    var elegidos = [...document.getElementById('selectedStocks').children].map(item => item.id)
+    elegidos.forEach(item => document.getElementById(`card${item}`).classList.remove('d-none'))
+    var noElegidos = [...document.getElementById('unselectedStocks').children].map(item => item.id)
+    noElegidos.forEach(item => document.getElementById(`card${item}`).classList.add('d-none'))
 })
 
 //Listener para cambiar el estado de los elementos cuando se está logueado o no
