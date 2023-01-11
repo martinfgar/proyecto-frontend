@@ -28,7 +28,8 @@
     integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"
     integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="../sass/style.sass">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../sass/style.sass">
 </head>
 
 <body>
@@ -188,6 +189,19 @@
     </div>
   </div>
 
+<!--Modal chart-->
+<div class="modal fade" id="modalChart" aria-labelledby="modalChartLabel" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <canvas id="grafico"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
 
   <div id="settingsButton" title="Ajustes de visibilidad" role="button" data-bs-toggle="modal" data-bs-target="#settingsModal">
     <i class="fa-solid fa-wrench"></i>

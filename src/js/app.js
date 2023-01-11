@@ -15,9 +15,16 @@ var loginModal = new bootstrap.Modal(document.getElementById('loginModal'), {
 var settingsModal = new bootstrap.Modal(document.getElementById('settingsModal'),{
     keyboard: false
 })
+var modalChart = new bootstrap.Modal(document.getElementById('modalChart'),{
+    keyboard: false
+})
+var ctx = document.getElementById('grafico');
+var chart;
+var empresas;
 if (getCookie('access_token') != null){
     logged = true;
     document.getElementById('username').innerText = getCookie('user');
+    
 }else{
     loginModal.show()
 }
@@ -80,14 +87,16 @@ async function logIn(){
     var data = new FormData(document.getElementById('loginForm'))
     const res = await fetch('http://localhost:8000/api/login',{
         method: 'POST',
-        body: data
+        body: data,
+        Accept: 'application/json'
     })
     return res.json()
 }
 async function fetchEmpresas(){
     const res = await fetch(`http://localhost:8000/api/empresas`,{
         headers: {
-            Authentication: 'Bearer '+getCookie('access_token')
+            Authorization: 'Bearer '+getCookie('access_token'),
+            Accept: 'application/json'
         }
     })
     return res.json()
@@ -95,20 +104,50 @@ async function fetchEmpresas(){
 async function fetchStockData(id_empresa){
     const res = await fetch(`http://localhost:8000/api/acciones/empresa/${id_empresa}`,{
         headers: {
-            Authentication: 'Bearer '+getCookie('access_token')
+            Authorization: 'Bearer '+getCookie('access_token'),
+            Accept: 'application/json'
         }
     })
     return res.json()
 }
 
+async function crearChart(empresa){
+    if (empresas == undefined){
+        empresas = await fetchEmpresas()
+    }
+    console.log(empresas)
+     chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+          datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+    });
+}
 
 [...document.getElementsByClassName('btn-chart')].forEach(elem => {
-    elem.addEventListener('click',() => {
+    elem.addEventListener('click',async () => {
         if (!logged){
             loginModal.show()
             return
         }
-        alert('Mostrar chart '+event.currentTarget.id)
+        if(chart != undefined){
+            chart.destroy()
+        }
+        
+        crearChart('aa')
+        modalChart.show()
     })
 })
 
@@ -119,8 +158,8 @@ document.getElementById('signUpForm').addEventListener('submit', async function(
     if (res.access_token != undefined){
         //loginModal.hide()     
         console.log(res.access_token)
-        document.cookie = `user = ${res.user.name}; max-age=15`
-        document.cookie = `access_token = ${res.access_token}; max-age=15`
+        document.cookie = `user = ${res.user.name}; max-age=7200`
+        document.cookie = `access_token = ${res.access_token}; max-age=7200`
     }else{
         document.getElementById('loginAlert').classList.remove('d-none')
         document.getElementById('loginAlert').innerText = res.message
@@ -135,7 +174,7 @@ document.getElementById('loginForm').addEventListener('submit',async function(ev
     console.log(res)
     if (res.access_token != undefined){
         console.log(res.access_token)
-        document.cookie = `user = ${res.user.name}; max-age=15`
+        document.cookie = `user = ${res.user.name}; max-age=7200`
         document.cookie = `access_token = ${res.access_token}; max-age=7200`
     }else{
         document.getElementById('loginAlert').classList.remove('d-none')
@@ -155,7 +194,8 @@ document.getElementById('saveSettingsBtn').addEventListener('click', () => {
 var cookieListener = setInterval(() => {
     if (getCookie('access_token') != null && !logged){
         logged = true
-        document.getElementById('username').innerText = getCookie('user')   
+        document.getElementById('username').innerText = getCookie('user')
+        empresas =  fetchEmpresas()   
     }else if (getCookie('access_token') == null && logged){
         document.getElementById('username').innerText = ''
         logged = false
