@@ -51,6 +51,19 @@ $( function() {
         }
     })
   } );
+
+  if (/Android|iPhone/i.test(navigator.userAgent)) {
+    [...document.getElementsByClassName('configLogo')].forEach(elem => {
+        elem.addEventListener('click',() => {
+            const id= event.currentTarget.parentNode.id
+            if(id == 'selectedStocks'){
+                document.getElementById('unselectedStocks').appendChild(event.currentTarget)
+            }else{
+                document.getElementById('selectedStocks').appendChild(event.currentTarget)
+            }
+        })
+    })
+}
 async function logIn(){
     var data = new FormData(document.getElementById('loginForm'))
     const res = await fetch('http://localhost:8000/api/login',{
