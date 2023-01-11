@@ -102,7 +102,15 @@ async function fetchStockData(id_empresa){
 }
 
 
-
+[...document.getElementsByClassName('btn-chart')].forEach(elem => {
+    elem.addEventListener('click',() => {
+        if (!logged){
+            loginModal.show()
+            return
+        }
+        alert('Mostrar chart '+event.currentTarget.id)
+    })
+})
 
 
 document.getElementById('signUpForm').addEventListener('submit', async function(event){
