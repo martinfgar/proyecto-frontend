@@ -20,6 +20,14 @@ if (getCookie('access_token') != null){
 }else{
     loginModal.show()
 }
+if(localStorage.getItem("stocksSelected") !== null){
+    JSON.parse(localStorage.stocksSelected).forEach(item => {
+        document.getElementById(`card${item}`).classList.remove('d-none')
+        document.getElementById('selectedStocks').appendChild(document.getElementById(`${item}`))
+    })
+    
+}
+
 $( function() {
     $( ".configLogo" ).draggable({
         scroll: false,
@@ -96,6 +104,7 @@ document.getElementById('saveSettingsBtn').addEventListener('click', () => {
     elegidos.forEach(item => document.getElementById(`card${item}`).classList.remove('d-none'))
     var noElegidos = [...document.getElementById('unselectedStocks').children].map(item => item.id)
     noElegidos.forEach(item => document.getElementById(`card${item}`).classList.add('d-none'))
+    localStorage.setItem("stocksSelected",JSON.stringify(elegidos))
 })
 
 //Listener para cambiar el estado de los elementos cuando se está logueado o no
