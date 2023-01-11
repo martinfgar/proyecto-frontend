@@ -78,7 +78,8 @@ async function register(){
     var data = new FormData(document.getElementById('signUpForm'))
     const res = await fetch('http://localhost:8000/api/register',{
         method: 'POST',
-        body: data
+        body: data,
+        Accept: 'application/json'
     })
     return res.json()
 }
@@ -115,21 +116,47 @@ async function crearChart(empresa){
     if (empresas == undefined){
         empresas = await fetchEmpresas()
     }
-    console.log(empresas)
-     chart = new Chart(ctx, {
+    const idEmpresa = empresas.find(emp => (emp.nombre).toLowerCase() == empresa.toLowerCase()).id
+    const datos = await fetchStockData(idEmpresa)
+    const valores = datos.map(a => a.valor)
+    const fechas = datos.map(a => a.fecha.replace(' ','\n'))
+    chart = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+          labels: fechas,
           datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            borderWidth: 1
+            label: `Acciones de ${empresa.toUpperCase()}`,
+            data: valores,
+            borderWidth: 1,
+            tension: 0.1
           }]
         },
         options: {
+          locale: 'es-ES',
           scales: {
             y: {
+                ticks:{
+                    callback: (value,index,ticks) => `${value}€ `
+                },
               beginAtZero: true
+            },
+            x:{
+                ticks:{
+                    maxTicksLimit: 10
+                }
+            }
+          },
+          plugins:{
+            zoom:{
+                zoom:{
+                    wheel:{
+                        enabled: true
+                    },
+                    pinch:{
+                        enabled: true
+                    },
+                    mode: 'x'
+                }
             }
           }
         }
@@ -145,8 +172,7 @@ async function crearChart(empresa){
         if(chart != undefined){
             chart.destroy()
         }
-        
-        crearChart('aa')
+        await crearChart(elem.id.replace('btn-',''))
         modalChart.show()
     })
 })
