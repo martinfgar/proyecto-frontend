@@ -8,6 +8,9 @@ function getCookie(name) {
     }
     return null;
 }
+function eraseCookie(name) {
+    document.cookie = name + '=; Max-Age=0'
+}
 var logged = false
 var loginModal = new bootstrap.Modal(document.getElementById('loginModal'), {
     keyboard: false
@@ -21,20 +24,36 @@ var modalChart = new bootstrap.Modal(document.getElementById('modalChart'),{
 var ctx = document.getElementById('grafico');
 var chart;
 var empresas;
-if (getCookie('access_token') != null){
+
+async function loggin(){
     logged = true;
     document.getElementById('username').innerText = getCookie('user');
-    UpdateCardsEmpresas()
-}else{
+    await UpdateCardsEmpresas()
+    document.getElementById('logOut').classList.remove('d-none')
+    document.getElementById('logIn').classList.add('d-none')
+}
+async function logout(){
+    logged = false
+    document.getElementById('username').innerText = ''
+    await UpdateCardsEmpresas()
+    document.getElementById('logIn').classList.remove('d-none')
+    document.getElementById('logOut').classList.add('d-none')
     loginModal.show()
 }
+
+if (getCookie('access_token') != null){
+    loggin()
+}else{
+    logout()
+}
+
 if(localStorage.getItem("stocksSelected") !== null){
     JSON.parse(localStorage.stocksSelected).forEach(item => {
         document.getElementById(`card${item}`).classList.remove('d-none')
         document.getElementById('selectedStocks').appendChild(document.getElementById(`${item}`))
     })
-    
 }
+
 
 $( function() {
     $( ".configLogo" ).draggable({
@@ -72,7 +91,6 @@ if (/Android|iPhone/i.test(navigator.userAgent)) {
         })
     })
 }
-
 
 async function register(){
     var data = new FormData(document.getElementById('signUpForm'))
@@ -163,72 +181,6 @@ async function crearChart(empresa){
     });
 }
 
-[...document.getElementsByClassName('btn-chart')].forEach(elem => {
-    elem.addEventListener('click',async () => {
-        if (!logged){
-            loginModal.show()
-            return
-        }
-        if(chart != undefined){
-            chart.destroy()
-        }
-        await crearChart(elem.id.replace('btn-',''))
-        modalChart.show()
-    })
-})
-
-
-document.getElementById('signUpForm').addEventListener('submit', async function(event){
-    event.preventDefault()  
-    const res = await register()
-    if (res.access_token != undefined){
-        //loginModal.hide()     
-        document.cookie = `user = ${res.user.name}; max-age=7200`
-        document.cookie = `access_token = ${res.access_token}; max-age=7200`
-        UpdateCardsEmpresas()
-    }else{
-        document.getElementById('loginAlert').classList.remove('d-none')
-        document.getElementById('loginAlert').innerText = res.message
-    }
-})
-
-
-
-document.getElementById('loginForm').addEventListener('submit',async function(event){
-    event.preventDefault()
-    const res = await logIn()
-    if (res.access_token != undefined){
-        document.cookie = `user = ${res.user.name}; max-age=7200`
-        document.cookie = `access_token = ${res.access_token}; max-age=7200`
-        UpdateCardsEmpresas()
-    }else{
-        document.getElementById('loginAlert').classList.remove('d-none')
-        document.getElementById('loginAlert').innerText = res.message
-    }
-})
-
-document.getElementById('saveSettingsBtn').addEventListener('click', () => {
-    var elegidos = [...document.getElementById('selectedStocks').children].map(item => item.id)
-    elegidos.forEach(item => document.getElementById(`card${item}`).classList.remove('d-none'))
-    var noElegidos = [...document.getElementById('unselectedStocks').children].map(item => item.id)
-    noElegidos.forEach(item => document.getElementById(`card${item}`).classList.add('d-none'))
-    localStorage.setItem("stocksSelected",JSON.stringify(elegidos))
-    UpdateCardsEmpresas()
-})
-
-//Listener para cambiar el estado de los elementos cuando se está logueado o no
-var cookieListener = setInterval(() => {
-    if (getCookie('access_token') != null && !logged){
-        logged = true
-        document.getElementById('username').innerText = getCookie('user')
-        empresas =  fetchEmpresas()   
-    }else if (getCookie('access_token') == null && logged){
-        document.getElementById('username').innerText = ''
-        logged = false
-        loginModal.show()
-    }
-},100)
-
 async function UpdateCardEmpresa(empresa){
     if (empresas == undefined){
         empresas = await fetchEmpresas()
@@ -260,6 +212,77 @@ async function UpdateCardsEmpresas(){
         })    
     }
 }
+
+
+[...document.getElementsByClassName('btn-chart')].forEach(elem => {
+    elem.addEventListener('click',async () => {
+        if (!logged){
+            loginModal.show()
+            return
+        }
+        if(chart != undefined){
+            chart.destroy()
+        }
+        await crearChart(elem.id.replace('btn-',''))
+        modalChart.show()
+    })
+})
+
+
+document.getElementById('signUpForm').addEventListener('submit', async function(event){
+    event.preventDefault()  
+    const res = await register()
+    if (res.access_token != undefined){
+     
+        document.cookie = `user = ${res.user.name}; max-age=7200`
+        document.cookie = `access_token = ${res.access_token}; max-age=7200`
+        loginModal.hide()
+        $(".modal-backdrop").remove()
+    }else{
+        document.getElementById('loginAlert').classList.remove('d-none')
+        document.getElementById('loginAlert').innerText = res.message
+    }
+})
+
+document.getElementById('logOut').addEventListener('click', () => {
+    eraseCookie('access_token')
+})
+    
+
+
+document.getElementById('loginForm').addEventListener('submit',async function(event){
+    event.preventDefault()
+    const res = await logIn()
+    if (res.access_token != undefined){
+        document.cookie = `user = ${res.user.name}; max-age=7200`
+        document.cookie = `access_token = ${res.access_token}; max-age=7200`
+        loginModal.hide()
+        $(".modal-backdrop").remove()
+    }else{
+        document.getElementById('loginAlert').classList.remove('d-none')
+        document.getElementById('loginAlert').innerText = res.message
+    }
+})
+
+document.getElementById('saveSettingsBtn').addEventListener('click', () => {
+    var elegidos = [...document.getElementById('selectedStocks').children].map(item => item.id)
+    elegidos.forEach(item => document.getElementById(`card${item}`).classList.remove('d-none'))
+    var noElegidos = [...document.getElementById('unselectedStocks').children].map(item => item.id)
+    noElegidos.forEach(item => document.getElementById(`card${item}`).classList.add('d-none'))
+    localStorage.setItem("stocksSelected",JSON.stringify(elegidos))
+    UpdateCardsEmpresas()
+})
+
+
+//Listener para cambiar el estado de los elementos cuando se está logueado o no
+var cookieListener = setInterval(async () => {
+    if (getCookie('access_token') != null && !logged){
+        await loggin()
+        empresas =  await fetchEmpresas()   
+    }else if (getCookie('access_token') == null && logged){
+        await logout()
+    }
+},100)
 
 //Cambiamos los valores mostrados en las tarjetas
 setInterval(async() => await UpdateCardsEmpresas(),60*1000)
