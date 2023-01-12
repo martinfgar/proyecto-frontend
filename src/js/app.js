@@ -24,7 +24,7 @@ var empresas;
 if (getCookie('access_token') != null){
     logged = true;
     document.getElementById('username').innerText = getCookie('user');
-    
+    UpdateCardsEmpresas()
 }else{
     loginModal.show()
 }
@@ -58,7 +58,7 @@ $( function() {
             $(e.target).append($(ui.draggable).detach().css({'top':'','left':''}))
         }
     })
-  } );
+});
 
 if (/Android|iPhone/i.test(navigator.userAgent)) {
     [...document.getElementsByClassName('configLogo')].forEach(elem => {
@@ -183,9 +183,9 @@ document.getElementById('signUpForm').addEventListener('submit', async function(
     const res = await register()
     if (res.access_token != undefined){
         //loginModal.hide()     
-        console.log(res.access_token)
         document.cookie = `user = ${res.user.name}; max-age=7200`
         document.cookie = `access_token = ${res.access_token}; max-age=7200`
+        UpdateCardsEmpresas()
     }else{
         document.getElementById('loginAlert').classList.remove('d-none')
         document.getElementById('loginAlert').innerText = res.message
@@ -197,11 +197,10 @@ document.getElementById('signUpForm').addEventListener('submit', async function(
 document.getElementById('loginForm').addEventListener('submit',async function(event){
     event.preventDefault()
     const res = await logIn()
-    console.log(res)
     if (res.access_token != undefined){
-        console.log(res.access_token)
         document.cookie = `user = ${res.user.name}; max-age=7200`
         document.cookie = `access_token = ${res.access_token}; max-age=7200`
+        UpdateCardsEmpresas()
     }else{
         document.getElementById('loginAlert').classList.remove('d-none')
         document.getElementById('loginAlert').innerText = res.message
@@ -214,6 +213,7 @@ document.getElementById('saveSettingsBtn').addEventListener('click', () => {
     var noElegidos = [...document.getElementById('unselectedStocks').children].map(item => item.id)
     noElegidos.forEach(item => document.getElementById(`card${item}`).classList.add('d-none'))
     localStorage.setItem("stocksSelected",JSON.stringify(elegidos))
+    UpdateCardsEmpresas()
 })
 
 //Listener para cambiar el estado de los elementos cuando se está logueado o no
@@ -228,3 +228,38 @@ var cookieListener = setInterval(() => {
         loginModal.show()
     }
 },100)
+
+async function UpdateCardEmpresa(empresa){
+    if (empresas == undefined){
+        empresas = await fetchEmpresas()
+    }
+    const idEmpresa = empresas.find(emp => (emp.nombre).toLowerCase() == empresa.toLowerCase()).id
+    const values = await fetchStockData(idEmpresa)
+    const latest_value = values[values.length-1].valor
+    const prev = document.getElementById(`price-${empresa}`).innerText;
+    document.getElementById(`price-${empresa}`).innerText = latest_value;
+    console.log(parseFloat(latest_value)-parseFloat(prev));
+    if ((parseFloat(latest_value)-parseFloat(prev))>0){
+        document.getElementById(`price-${empresa}`).classList.add('text-success')
+        document.getElementById(`price-${empresa}`).classList.remove('text-danger')
+    }else{
+        document.getElementById(`price-${empresa}`).classList.remove('text-success')
+        document.getElementById(`price-${empresa}`).classList.add('text-danger')
+    }
+
+}
+async function UpdateCardsEmpresas(){
+    if(localStorage.getItem("stocksSelected") !== null){
+        JSON.parse(localStorage.stocksSelected).forEach(async (item) =>{
+            if (logged){   
+                await UpdateCardEmpresa(item)
+            }else{
+                document.getElementById(`price-${item}`).innerText = 'Inicia sesión para obtener los datos';
+                document.getElementById(`price-${item}`).classList.remove('text-success')
+            }
+        })    
+    }
+}
+
+//Cambiamos los valores mostrados en las tarjetas
+setInterval(async() => await UpdateCardsEmpresas(),60*1000)
