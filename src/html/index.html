@@ -28,10 +28,12 @@
     integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"
     integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.0/chartjs-plugin-zoom.min.js" integrity="sha512-B6F98QATBNaDHSE7uANGo5h0mU6fhKCUD+SPAY7KZDxE8QgZw9rewDtNiu3mbbutYDWOKT3SPYD8qDBpG2QnEg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="../sass/style.sass">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.0/chartjs-plugin-zoom.min.js"
+    integrity="sha512-B6F98QATBNaDHSE7uANGo5h0mU6fhKCUD+SPAY7KZDxE8QgZw9rewDtNiu3mbbutYDWOKT3SPYD8qDBpG2QnEg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="../sass/style.sass">
 </head>
 
 <body>
@@ -40,110 +42,137 @@
       <a class="navbar-brand text-primary me-auto"><i class="fa-solid fa-money-bill-trend-up"></i></a>
       <div id="username" class="m-2"></div>
       <div class="ms-2">
-        <a role="button" id="logIn" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="fa-solid fa-right-to-bracket"></i></a>
+        <a role="button" id="logIn" data-bs-toggle="modal" data-bs-target="#loginModal"><i
+            class="fa-solid fa-right-to-bracket"></i></a>
         <a role="button" id="logOut" class="d-none"><i class="fa-solid fa-right-from-bracket"></i></a>
       </div>
     </div>
   </nav>
   <main class="container-fluid" id="mainPanel">
-    <div class="row g-5">
-      <div class="col-sm-6 col-md-4 col-lg-3 d-none" id="cardiberdrola">
-        <div class="card w-100">
+    <div class="row g-2 m-2">
+      <div class="col-md-6 col-md-4 col-lg-3 d-none card-container" id="cardiberdrola">
+        <div class="card">
           <img src="../img/iberdrola.jpg" class="card-img-top" alt="Iberdrola">
           <div class="card-body text-center">
-            <h5 class="card-title stock-price text-danger" id="price-iberdrola">Inicia sesión para obtener los datos</h5>
-            <p class="card-text"></p>
-            <a role="button" id="btn-iberdrola" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
+            <div class="mt-auto mb-auto">
+              <h5 class="card-title stock-price text-danger" id="price-iberdrola">Inicia sesión para obtener los datos
+              </h5>
+
+              <a role="button" id="btn-iberdrola" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-sm-6 col-md-4 col-lg-3 d-none" id="cardcellnex">
-        <div class="card w-100">
+      <div class="col-sm-6 col-md-4 col-lg-3 d-none card-container" id="cardcellnex">
+        <div class="card">
           <img src="../img/cellnex.jpg" class="card-img-top" alt="Cellnex">
           <div class="card-body text-center">
-            <h5 class="card-title stock-price text-danger" id="price-cellnex">Inicia sesión para obtener los datos</h5>
-            <p class="card-text"></p>
-            <a role="button" id="btn-cellnex" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
+            <div class="mt-auto mb-auto">
+              <h5 class="card-title stock-price text-danger" id="price-cellnex">Inicia sesión para obtener los datos
+              </h5>
+
+              <a role="button" id="btn-cellnex" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-sm-6 col-md-4 col-lg-3 d-none" id="cardcaixabank">
-        <div class="card w-100">
+      <div class="col-sm-6 col-md-4 col-lg-3 d-none card-container" id="cardcaixabank">
+        <div class="card">
           <img src="../img/caixabank.jpg" class="card-img-top" alt="Caixabank">
           <div class="card-body text-center">
-            <h5 class="card-title stock-price text-danger" id="price-caixabank">Inicia sesión para obtener los datos</h5>
-            <p class="card-text"></p>
-            <a role="button" id="btn-caixabank" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
+            <div class="mt-auto mb-auto">
+              <h5 class="card-title stock-price text-danger" id="price-caixabank">Inicia sesión para obtener los datos
+              </h5>
+              <a role="button" id="btn-caixabank" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-sm-6 col-md-4 col-lg-3 d-none" id="cardtelefonica">
-        <div class="card w-100">
+      <div class="col-sm-6 col-md-4 col-lg-3 d-none card-container" id="cardtelefonica">
+        <div class="card">
           <img src="../img/telefonica.jpg" class="card-img-top" alt="Telefónica">
           <div class="card-body text-center">
-            <h5 class="card-title stock-price text-danger" id="price-telefonica">Inicia sesión para obtener los datos</h5>
-            <p class="card-text"></p>
-            <a role="button" id="btn-telefonica" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
+            <div class="mt-auto mb-auto">
+              <h5 class="card-title stock-price text-danger" id="price-telefonica">Inicia sesión para obtener los datos
+              </h5>
+              <a role="button" id="btn-telefonica" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-sm-6 col-md-4 col-lg-3 d-none" id="cardnaturgy">
-        <div class="card w-100">
+      <div class="col-sm-6 col-md-4 col-lg-3 d-none card-container" id="cardnaturgy">
+        <div class="card">
           <img src="../img/naturgy.jpg" class="card-img-top" alt="Naturgy">
           <div class="card-body text-center">
-            <h5 class="card-title stock-price text-danger" id="price-naturgy">Inicia sesión para obtener los datos</h5>
-            <p class="card-text"></p>
-            <a role="button" id="btn-naturgy" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
+            <div class="mt-auto mb-auto">
+              <h5 class="card-title stock-price text-danger" id="price-naturgy">Inicia sesión para obtener los datos
+              </h5>
+              <a role="button" id="btn-naturgy" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
+            </div>
+
           </div>
         </div>
       </div>
-      <div class="col-sm-6 col-md-4  col-lg-3 d-none" id="cardbbva">
-        <div class="card w-100">
+      <div class="col-sm-6 col-md-4  col-lg-3 d-none card-container" id="cardbbva">
+        <div class="card">
           <img src="../img/bbva.jpg" class="card-img-top" alt="BBVA">
           <div class="card-body text-center">
-            <h5 class="card-title stock-price text-danger" id="price-bbva">Inicia sesión para obtener los datos</h5>
-            <p class="card-text"></p>
-            <a role="button" id="btn-bbva" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
+            <div class="mt-auto mb-auto">
+              <h5 class="card-title stock-price text-danger" id="price-bbva">Inicia sesión para obtener los datos</h5>
+
+              <a role="button" id="btn-bbva" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-sm-6 col-md-4 col-lg-3 d-none" id="cardinditex">
-        <div class="card w-100">
+      <div class="col-sm-6 col-md-4 col-lg-3 d-none card-container" id="cardinditex">
+        <div class="card">
           <img src="../img/inditex.jpg" class="card-img-top" alt="Inditex">
           <div class="card-body text-center">
-            <h5 class="card-title stock-price text-danger" id="price-inditex">Inicia sesión para obtener los datos</h5>
-            <p class="card-text"></p>
-            <a role="button" id="btn-inditex" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
+            <div class="mt-auto mb-auto">
+              <h5 class="card-title stock-price text-danger" id="price-inditex">Inicia sesión para obtener los datos
+              </h5>
+
+              <a role="button" id="btn-inditex" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-sm-6 col-md-4 col-lg-3 d-none" id="cardsantander">
-        <div class="card w-100">
+      <div class="col-sm-6 col-md-4 col-lg-3 d-none card-container" id="cardsantander">
+        <div class="card">
           <img src="../img/santander.jpg" class="card-img-top" alt="Santander">
           <div class="card-body text-center">
-            <h5 class="card-title stock-price text-danger" id="price-santander">Inicia sesión para obtener los datos</h5>
-            <p class="card-text"></p>
-            <a role="button" id="btn-santander" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
+            <div class="mt-auto mb-auto">
+              <h5 class="card-title stock-price text-danger" id="price-santander">Inicia sesión para obtener los datos
+              </h5>
+
+              <a role="button" id="btn-santander" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-sm-6 col-md-4 col-lg-3 d-none" id="cardrepsol">
-        <div class="card w-100">
+      <div class="col-sm-6 col-md-4 col-lg-3 d-none card-container" id="cardrepsol">
+        <div class="card ">
           <img src="../img/repsol.jpg" class="card-img-top" alt="Repsol">
           <div class="card-body text-center">
-            <h5 class="card-title stock-price text-danger" id="price-repsol">Inicia sesión para obtener los datos</h5>
-            <p class="card-text"></p>
-            <a role="button" id="btn-repsol" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
+            <div class="mt-auto mb-auto">
+              <h5 class="card-title stock-price text-danger" id="price-repsol">Inicia sesión para obtener los datos</h5>
+
+              <a role="button" id="btn-repsol" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-sm-6 col-md-4 col-lg-3 d-none" id="cardferrovial">
-        <div class="card w-100">
+      <div class="col-sm-6 col-md-4 col-lg-3 d-none card-container" id="cardferrovial">
+        <div class="card">
           <img src="../img/ferrovial.jpg" class="card-img-top" alt="Ferrpvial">
           <div class="card-body text-center">
-            <h5 class="card-title stock-price text-danger" id="price-ferrovial">Inicia sesión para obtener los datos</h5>
-            <p class="card-text"></p>
-            <a role="button" id="btn-ferrovial" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
+            <div class="mt-auto mb-auto">
+              <h5 class="card-title stock-price text-danger" id="price-ferrovial">Inicia sesión para obtener los datos
+              </h5>
+
+              <a role="button" id="btn-ferrovial" class="btn btn-chart"> <i class="fa-solid fa-chart-line"></i></a>
+            </div>
           </div>
         </div>
       </div>
@@ -215,7 +244,7 @@
     </div>
   </div>
 
-<!--Modal settings-->
+  <!--Modal settings-->
   <div class="modal fade" id="settingsModal" aria-labelledby="settingsModalLabel" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -236,7 +265,7 @@
               <img class="w-100 configLogo" src="../img/bbva.jpg" alt="" id="bbva">
               <img class="w-100 configLogo" src="../img/iberdrola.jpg" alt="" id="iberdrola">
               <img class="w-100 configLogo" src="../img/inditex.jpg" alt="" id="inditex">
-              <img class="w-100 configLogo" src="../img/santander.jpg" alt="" id="santander">              
+              <img class="w-100 configLogo" src="../img/santander.jpg" alt="" id="santander">
               <img class="w-100 configLogo" src="../img/naturgy.jpg" alt="" id="naturgy">
               <img class="w-100 configLogo" src="../img/cellnex.jpg" alt="" id="cellnex">
               <img class="w-100 configLogo" src="../img/caixabank.jpg" alt="" id="caixabank">
@@ -259,21 +288,22 @@
     </div>
   </div>
 
-<!--Modal chart-->
-<div class="modal fade" id="modalChart" aria-labelledby="modalChartLabel" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-xl modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <canvas id="grafico"></canvas>
+  <!--Modal chart-->
+  <div class="modal fade" id="modalChart" aria-labelledby="modalChartLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <canvas id="grafico"></canvas>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-  <div id="settingsButton" title="Ajustes de visibilidad" role="button" data-bs-toggle="modal" data-bs-target="#settingsModal">
+  <div id="settingsButton" title="Ajustes de visibilidad" role="button" data-bs-toggle="modal"
+    data-bs-target="#settingsModal">
     <i class="fa-solid fa-wrench"></i>
   </div>
 </body>
