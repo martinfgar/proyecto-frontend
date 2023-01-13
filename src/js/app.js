@@ -11,6 +11,8 @@ function getCookie(name) {
 function eraseCookie(name) {
     document.cookie = name + '=; Max-Age=0'
 }
+var updateInterval;
+var updateTime;
 var logged = false
 var loginModal = new bootstrap.Modal(document.getElementById('loginModal'), {
     keyboard: false
@@ -91,7 +93,7 @@ if (/Android|iPhone/i.test(navigator.userAgent)) {
         })
     })
 }
-
+resetContador()
 async function register(){
     var data = new FormData(document.getElementById('signUpForm'))
     const res = await fetch('http://localhost:8000/api/register',{
@@ -146,7 +148,7 @@ async function crearChart(empresa){
             label: `Acciones de ${empresa.toUpperCase()}`,
             data: valores,
             borderWidth: 1,
-            tension: 0.1
+            tension: 0.3
           }]
         },
         options: {
@@ -167,6 +169,13 @@ async function crearChart(empresa){
           plugins:{
             zoom:{
                 zoom:{
+                    pan:{
+                        mode: 'x'
+                    },
+                    drag:{
+                        enabled: true,
+                        backgroundColor: `#9AD0F5`
+                    },
                     wheel:{
                         enabled: true
                     },
@@ -190,14 +199,17 @@ async function UpdateCardEmpresa(empresa){
     const latest_value = values[values.length-1].valor
     const prev = document.getElementById(`price-${empresa}`).innerText;
     document.getElementById(`price-${empresa}`).innerText = latest_value;
-    console.log(parseFloat(latest_value)-parseFloat(prev));
     if ((parseFloat(latest_value)-parseFloat(prev))>0){
         document.getElementById(`price-${empresa}`).classList.add('text-success')
         document.getElementById(`price-${empresa}`).classList.remove('text-danger')
-    }else{
+    }else if ((parseFloat(latest_value)-parseFloat(prev))<0){
         document.getElementById(`price-${empresa}`).classList.remove('text-success')
         document.getElementById(`price-${empresa}`).classList.add('text-danger')
     }
+    setTimeout(() => {
+        document.getElementById(`price-${empresa}`).classList.remove('text-success')
+        document.getElementById(`price-${empresa}`).classList.remove('text-danger')
+    },5000)
 
 }
 async function UpdateCardsEmpresas(){
@@ -228,6 +240,14 @@ async function UpdateCardsEmpresas(){
     })
 })
 
+function resetContador(){
+    clearInterval(updateInterval)
+    updateTime = 60
+    updateInterval = setInterval(() =>  {
+        updateTime--; 
+        document.getElementById('timer').innerText = updateTime
+    },1000)
+}
 
 document.getElementById('signUpForm').addEventListener('submit', async function(event){
     event.preventDefault()  
@@ -285,4 +305,7 @@ var cookieListener = setInterval(async () => {
 },100)
 
 //Cambiamos los valores mostrados en las tarjetas
-setInterval(async() => await UpdateCardsEmpresas(),60*1000)
+setInterval(async() => {
+    await UpdateCardsEmpresas()
+    resetContador()
+},60*1000)
