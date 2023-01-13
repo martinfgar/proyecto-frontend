@@ -197,8 +197,8 @@ async function UpdateCardEmpresa(empresa){
     const idEmpresa = empresas.find(emp => (emp.nombre).toLowerCase() == empresa.toLowerCase()).id
     const values = await fetchStockData(idEmpresa)
     const latest_value = values[values.length-1].valor
-    const prev = document.getElementById(`price-${empresa}`).innerText;
-    document.getElementById(`price-${empresa}`).innerText = latest_value;
+    const prev = values[values.length-2].valor
+    document.getElementById(`price-${empresa}`).innerText = latest_value+'€';
     if ((parseFloat(latest_value)-parseFloat(prev))>0){
         document.getElementById(`price-${empresa}`).classList.add('text-success')
         document.getElementById(`price-${empresa}`).classList.remove('text-danger')
@@ -218,7 +218,7 @@ async function UpdateCardsEmpresas(){
             if (logged){   
                 await UpdateCardEmpresa(item)
             }else{
-                document.getElementById(`price-${item}`).innerText = 'Inicia sesión para obtener los datos';
+                document.getElementById(`price-${item}`).innerHTML = '';
                 document.getElementById(`price-${item}`).classList.remove('text-success')
             }
         })    
