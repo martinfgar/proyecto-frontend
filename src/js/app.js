@@ -96,7 +96,7 @@ if (/Android|iPhone/i.test(navigator.userAgent)) {
 resetContador()
 async function register(){
     var data = new FormData(document.getElementById('signUpForm'))
-    const res = await fetch('http://localhost:8000/api/register',{
+    const res = await fetch('${api}/api/register',{
         method: 'POST',
         body: data,
         Accept: 'application/json'
@@ -106,7 +106,7 @@ async function register(){
 
 async function logIn(){
     var data = new FormData(document.getElementById('loginForm'))
-    const res = await fetch('http://localhost:8000/api/login',{
+    const res = await fetch('${api}/api/login',{
         method: 'POST',
         body: data,
         Accept: 'application/json'
@@ -114,7 +114,7 @@ async function logIn(){
     return res.json()
 }
 async function fetchEmpresas(){
-    const res = await fetch(`http://localhost:8000/api/empresas`,{
+    const res = await fetch(`${api}/api/empresas`,{
         headers: {
             Authorization: 'Bearer '+getCookie('access_token'),
             Accept: 'application/json'
@@ -123,7 +123,7 @@ async function fetchEmpresas(){
     return res.json()
 }
 async function fetchStockData(id_empresa){
-    const res = await fetch(`http://localhost:8000/api/acciones/empresa/${id_empresa}`,{
+    const res = await fetch(`${api}/api/acciones/empresa/${id_empresa}`,{
         headers: {
             Authorization: 'Bearer '+getCookie('access_token'),
             Accept: 'application/json'
