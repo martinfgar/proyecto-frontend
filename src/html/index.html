@@ -447,24 +447,24 @@ async function crearChart(empresa){
     }
     const idEmpresa = empresas.find(emp => (emp.nombre).toLowerCase() == empresa.toLowerCase()).id
     const datos = await fetchStockData(idEmpresa)
-
+    var options = {
+      rangeSelector: {
+        selected: 1
+      },
+      title: {
+        text: `Acciones de ${empresa}`
+      },
+    
+      series: [{
+        name: empresa,
+        data: datos,
+        tooltip: {
+          valueDecimals: 2
+        }
+      }]
+    }
     //// Create the chart
-    //Highcharts.stockChart('containerGrafico', {
-    //  rangeSelector: {
-    //    selected: 1
-    //  },
-    //  title: {
-    //    text: `Acciones de ${emp.nombre}`
-    //  },
-    //
-    //  series: [{
-    //    name: emp.nombre,
-    //    data: datos,
-    //    tooltip: {
-    //      valueDecimals: 2
-    //    }
-    //  }]
-    //});
+    Highcharts.stockChart('containerGrafico', options);
 }
 
 async function UpdateCardEmpresa(empresa){
