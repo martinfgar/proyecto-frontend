@@ -27,11 +27,11 @@
     integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"
     integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.0/chartjs-plugin-zoom.min.js"
-    integrity="sha512-B6F98QATBNaDHSE7uANGo5h0mU6fhKCUD+SPAY7KZDxE8QgZw9rewDtNiu3mbbutYDWOKT3SPYD8qDBpG2QnEg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://code.highcharts.com/stock/highstock.js"></script>
+  <script src="https://code.highcharts.com/stock/modules/data.js"></script>
+  <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
+  <script src="https://code.highcharts.com/stock/modules/accessibility.js"></script>
   <link rel="stylesheet" href="../sass/style.sass">
 </head>
 
@@ -294,8 +294,8 @@
         <div class="modal-header">
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          <canvas id="grafico"></canvas>
+        <div class="modal-body" id="containerGrafico">
+        
         </div>
       </div>
     </div>
@@ -332,7 +332,7 @@ var settingsModal = new bootstrap.Modal(document.getElementById('settingsModal')
 var modalChart = new bootstrap.Modal(document.getElementById('modalChart'),{
     keyboard: false
 })
-var ctx = document.getElementById('grafico');
+
 var chart;
 var empresas;
 
@@ -447,56 +447,24 @@ async function crearChart(empresa){
     }
     const idEmpresa = empresas.find(emp => (emp.nombre).toLowerCase() == empresa.toLowerCase()).id
     const datos = await fetchStockData(idEmpresa)
-    const valores = datos.map(a => a.valor)
-    const fechas = datos.map(a => a.fecha.replace(' ','\n'))
-    chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: fechas,
-          datasets: [{
-            label: `Acciones de ${empresa.toUpperCase()}`,
-            data: valores,
-            borderWidth: 1,
-            tension: 0.3
-          }]
-        },
-        options: {
-          locale: 'es-ES',
-          scales: {
-            y: {
-                ticks:{
-                    callback: (value,index,ticks) => `${value}€ `
-                },
-              beginAtZero: true
-            },
-            x:{
-                ticks:{
-                    maxTicksLimit: 10
-                }
-            }
-          },
-          plugins:{
-            zoom:{
-                zoom:{
-                    pan:{
-                        mode: 'x'
-                    },
-                    drag:{
-                        enabled: true,
-                        backgroundColor: `#9AD0F5`
-                    },
-                    wheel:{
-                        enabled: true
-                    },
-                    pinch:{
-                        enabled: true
-                    },
-                    mode: 'x'
-                }
-            }
-          }
-        }
-    });
+
+    //// Create the chart
+    //Highcharts.stockChart('containerGrafico', {
+    //  rangeSelector: {
+    //    selected: 1
+    //  },
+    //  title: {
+    //    text: `Acciones de ${emp.nombre}`
+    //  },
+    //
+    //  series: [{
+    //    name: emp.nombre,
+    //    data: datos,
+    //    tooltip: {
+    //      valueDecimals: 2
+    //    }
+    //  }]
+    //});
 }
 
 async function UpdateCardEmpresa(empresa){
@@ -505,8 +473,8 @@ async function UpdateCardEmpresa(empresa){
     }
     const idEmpresa = empresas.find(emp => (emp.nombre).toLowerCase() == empresa.toLowerCase()).id
     const values = await fetchStockData(idEmpresa)
-    const latest_value = values[values.length-1].valor
-    const prev = values[values.length-2].valor
+    const latest_value = values[values.length-1][1]
+    const prev = values[values.length-2][1]
     document.getElementById(`price-${empresa}`).innerText = latest_value+'€';
     if ((parseFloat(latest_value)-parseFloat(prev))>0){
         document.getElementById(`price-${empresa}`).classList.add('text-success')
