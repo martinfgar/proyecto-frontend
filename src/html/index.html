@@ -416,7 +416,7 @@
   resetContador()
   async function register() {
     var data = new FormData(document.getElementById('signUpForm'))
-    const res = await fetch('${api}/api/register', {
+    const res = await fetch(`${api}/api/register`, {
       method: 'POST',
       body: data,
       Accept: 'application/json'
@@ -426,7 +426,7 @@
 
   async function logIn() {
     var data = new FormData(document.getElementById('loginForm'))
-    const res = await fetch('${api}/api/login', {
+    const res = await fetch(`${api}/api/login`, {
       method: 'POST',
       body: data,
       Accept: 'application/json'
