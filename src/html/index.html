@@ -317,19 +317,7 @@
   </div>
 </body>
 <script>
-  function getCookie(name) {
-    var cookieArr = document.cookie.split(";");
-    for (var i = 0; i < cookieArr.length; i++) {
-      var cookiePair = cookieArr[i].split("=");
-      if (name == cookiePair[0].trim()) {
-        return decodeURIComponent(cookiePair[1]);
-      }
-    }
-    return null;
-  }
-  function eraseCookie(name) {
-    document.cookie = name + '=; Max-Age=0'
-  }
+
   var api = 'http://localhost:8000'
   var updateInterval;
   var updateTime;
@@ -347,27 +335,6 @@
   var chart;
   var empresas;
 
-  async function loggin() {
-    logged = true;
-    document.getElementById('username').innerText = getCookie('user');
-    await UpdateCardsEmpresas()
-    document.getElementById('logOut').classList.remove('d-none')
-    document.getElementById('logIn').classList.add('d-none')
-  }
-  async function logout() {
-    logged = false
-    document.getElementById('username').innerText = ''
-    await UpdateCardsEmpresas()
-    document.getElementById('logIn').classList.remove('d-none')
-    document.getElementById('logOut').classList.add('d-none')
-    loginModal.show()
-  }
-
-  if (getCookie('access_token') != null) {
-    loggin()
-  } else {
-    logout()
-  }
 
   if (localStorage.getItem("stocksSelected") !== null) {
     JSON.parse(localStorage.stocksSelected).forEach(item => {
@@ -413,7 +380,21 @@
       })
     })
   }
-  resetContador()
+
+  function getCookie(name) {
+    var cookieArr = document.cookie.split(";");
+    for (var i = 0; i < cookieArr.length; i++) {
+      var cookiePair = cookieArr[i].split("=");
+      if (name == cookiePair[0].trim()) {
+        return decodeURIComponent(cookiePair[1]);
+      }
+    }
+    return null;
+  }
+  function eraseCookie(name) {
+    document.cookie = name + '=; Max-Age=0'
+  }
+
   async function register() {
     var data = new FormData(document.getElementById('signUpForm'))
     const res = await fetch(`${api}/api/register`, {
@@ -452,13 +433,14 @@
     return res.json()
   }
 
-  async function crearChart(empresa) {
+  
+  function crearChart(empresa) {
     const idEmpresa = empresas.find(emp => (emp.nombre).toLowerCase() == empresa.toLowerCase()).id
-    var seriesAcciones = []
+    var dataSeries = []
     JSON.parse(localStorage.stocksSelected).forEach(item => {
       var empresa = empresas.filter(emp => (emp.nombre).toLowerCase() == item.toLowerCase())[0]
-      var visibility = (empresa.id == idEmpresa)
-      seriesAcciones.push({
+      let visibility = (empresa.id == idEmpresa)
+      dataSeries.push({
         name: item.toUpperCase(),
         showInLegend: true,
         data: empresa.valores,
@@ -479,7 +461,7 @@
         align: "center",
         enabled: true
       },
-      series: seriesAcciones
+      series: dataSeries
     }
     //// Create the chart
     chart = Highcharts.stockChart('containerGrafico', options);
@@ -489,31 +471,24 @@
     const latest_value = empresa.valores[(empresa.valores).length - 1][1]
     const prev = empresa.valores[(empresa.valores).length - 2][1]
     document.getElementById(`price-${(empresa.nombre).toLowerCase()}`).innerText = latest_value + '€';
-    if ((parseFloat(latest_value) - parseFloat(prev)) > 0) {
-      document.getElementById(`price-${(empresa.nombre).toLowerCase()}`).style.color = '#198754'
-    } else if ((parseFloat(latest_value) - parseFloat(prev)) < 0) {
-      document.getElementById(`price-${(empresa.nombre).toLowerCase()}`).style.color = '#dc3545'
-    }
+    let color = ((parseFloat(latest_value) - parseFloat(prev)) > 0) ?  '#198754' : '#dc3545'
+    document.getElementById(`price-${(empresa.nombre).toLowerCase()}`).style.color = color
     setTimeout(() => {
       document.getElementById(`price-${(empresa.nombre).toLowerCase()}`).style.color= 'white'
     }, 5000)
-
   }
-  async function UpdateCardsEmpresas() {
-    if (logged) {
-      await refreshData()
 
-      empresas.forEach(empresa => {
-        UpdateCardEmpresa(empresa)
-      })
-    } else {
+  function UpdateCardsEmpresas() {
+    if (!logged) {
       [...document.querySelectorAll('[id^="price-"]')].forEach(item => item.innerHTML = '')
+      return
     }
+    empresas.forEach(empresa => UpdateCardEmpresa(empresa))
   }
 
 
   [...document.getElementsByClassName('btn-chart')].forEach(elem => {
-    elem.addEventListener('click', async () => {
+    elem.addEventListener('click', () => {
       if (!logged) {
         loginModal.show()
         return
@@ -521,12 +496,12 @@
       if (chart != undefined) {
         chart.destroy()
       }
-      await crearChart(elem.id.replace('btn-', ''))
+      crearChart(elem.id.split('-')[1])
       modalChart.show()
     })
   })
 
-  function resetContador() {
+  function resetTimer() {
     clearInterval(updateInterval)
     updateTime = 60
     updateInterval = setInterval(() => {
@@ -535,39 +510,36 @@
     }, 1000)
   }
 
-  document.getElementById('signUpForm').addEventListener('submit', async function (event) {
+  document.getElementById('signUpForm').addEventListener('submit', async ()=>{
     event.preventDefault()
     const res = await register()
-    if (res.access_token != undefined) {
-
-      document.cookie = `user = ${res.user.name}; max-age=7200`
-      document.cookie = `access_token = ${res.access_token}; max-age=7200`
-      loginModal.hide()
-      $(".modal-backdrop").remove()
-    } else {
+    if (res.access_token == undefined){
       document.getElementById('loginAlert').classList.remove('d-none')
       document.getElementById('loginAlert').innerText = res.message
+      return
     }
+    document.cookie = `user = ${res.user.name}; max-age=7200`
+    document.cookie = `access_token = ${res.access_token}; max-age=7200`
+    loginModal.hide()
+    $(".modal-backdrop").remove()
   })
 
-  document.getElementById('logOut').addEventListener('click', () => {
-    eraseCookie('access_token')
-  })
+  document.getElementById('logOut').addEventListener('click', () => eraseCookie('access_token'))
 
 
 
-  document.getElementById('loginForm').addEventListener('submit', async function (event) {
+  document.getElementById('loginForm').addEventListener('submit', async () => {
     event.preventDefault()
     const res = await logIn()
-    if (res.access_token != undefined) {
-      document.cookie = `user = ${res.user.name}; max-age=7200`
-      document.cookie = `access_token = ${res.access_token}; max-age=7200`
-      loginModal.hide()
-      $(".modal-backdrop").remove()
-    } else {
+    if (res.access_token == undefined){
       document.getElementById('loginAlert').classList.remove('d-none')
       document.getElementById('loginAlert').innerText = res.message
+      return
     }
+    document.cookie = `user = ${res.user.name}; max-age=7200`
+    document.cookie = `access_token = ${res.access_token}; max-age=7200`
+    loginModal.hide()
+    $(".modal-backdrop").remove()
   })
 
   document.getElementById('saveSettingsBtn').addEventListener('click', () => {
@@ -583,9 +555,19 @@
   //Listener para cambiar el estado de los elementos cuando se está logueado o no
   var cookieListener = setInterval(async () => {
     if (getCookie('access_token') != null && !logged) {
-      await loggin()
+      logged = true;
+      document.getElementById('username').innerText = getCookie('user');
+      await RefreshData()
+      await UpdateCardsEmpresas()
+      document.getElementById('logOut').classList.remove('d-none')
+      document.getElementById('logIn').classList.add('d-none')
     } else if (getCookie('access_token') == null && logged) {
-      await logout()
+      logged = false
+      document.getElementById('username').innerText = ''
+      await UpdateCardsEmpresas()
+      document.getElementById('logIn').classList.remove('d-none')
+      document.getElementById('logOut').classList.add('d-none')
+      loginModal.show()
     }
   }, 100)
 
@@ -599,10 +581,10 @@
     }
   }
 
-  //Cambiamos los valores mostrados en las tarjetas
   setInterval(async () => {
-    await UpdateCardsEmpresas()
-    resetContador()
+    await refreshData()
+    UpdateCardsEmpresas()
+    resetTimer()
   }, 60 * 1000)
 
 </script>
