@@ -381,6 +381,14 @@
     })
   }
 
+  setInterval(async () => {
+    await refreshData()
+    resetTimer()
+  }, 60 * 1000)
+
+  refreshData()
+  resetTimer()
+
   function getCookie(name) {
     var cookieArr = document.cookie.split(";");
     for (var i = 0; i < cookieArr.length; i++) {
@@ -526,8 +534,6 @@
 
   document.getElementById('logOut').addEventListener('click', () => eraseCookie('access_token'))
 
-
-
   document.getElementById('loginForm').addEventListener('submit', async () => {
     event.preventDefault()
     const res = await logIn()
@@ -557,14 +563,13 @@
     if (getCookie('access_token') != null && !logged) {
       logged = true;
       document.getElementById('username').innerText = getCookie('user');
-      await RefreshData()
-      await UpdateCardsEmpresas()
+      await refreshData()
       document.getElementById('logOut').classList.remove('d-none')
       document.getElementById('logIn').classList.add('d-none')
     } else if (getCookie('access_token') == null && logged) {
       logged = false
       document.getElementById('username').innerText = ''
-      await UpdateCardsEmpresas()
+      UpdateCardsEmpresas()
       document.getElementById('logIn').classList.remove('d-none')
       document.getElementById('logOut').classList.add('d-none')
       loginModal.show()
@@ -573,19 +578,18 @@
 
 
   async function refreshData() {
+    if (!logged){
+      return
+    }
     if (empresas == undefined) {
       empresas = await fetchEmpresas()
     }
     for (var empresa of empresas) {
       empresa['valores'] = await fetchStockData(empresa.id)
     }
+    UpdateCardsEmpresas()
   }
 
-  setInterval(async () => {
-    await refreshData()
-    UpdateCardsEmpresas()
-    resetTimer()
-  }, 60 * 1000)
 
 </script>
 
