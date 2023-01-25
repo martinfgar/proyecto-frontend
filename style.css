@@ -1,0 +1,226 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400&display=swap");
+.btn-chart {
+  font-size: 1.5em;
+  transition: 0.5s all;
+  color: transparent;
+}
+.btn-chart:hover {
+  color: green !important;
+  scale: 1.1;
+}
+
+.btn-chart-current {
+  font-size: 1.5em;
+  transition: 0.5s all;
+  color: transparent;
+}
+.btn-chart-current:hover {
+  color: green !important;
+  scale: 1.1;
+}
+
+.card-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  transition: 0.7s all;
+  background: inherit;
+  color: white;
+  height: 100%;
+  border: none;
+}
+.card:hover {
+  opacity: 1;
+  scale: 1.005;
+  background-color: white;
+  color: black;
+  border: none;
+}
+.card:hover .card-img-top {
+  -webkit-animation: unfocus 2s ease infinite;
+          animation: unfocus 2s ease infinite;
+  filter: none;
+}
+.card:hover .btn-chart {
+  color: red;
+  -webkit-animation: bigsmall 2s ease infinite;
+          animation: bigsmall 2s ease infinite;
+}
+.card:hover .btn-chart-current {
+  color: blue;
+  -webkit-animation: bigsmall 2s ease infinite;
+          animation: bigsmall 2s ease infinite;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+}
+
+#settingsButton {
+  position: fixed;
+  color: black;
+  background: #69bdf5;
+  bottom: 30px;
+  right: 30px;
+  padding: 15px;
+  border: 3px solid #303030;
+  border-radius: 100%;
+  cursor: pointer;
+}
+#settingsButton:hover {
+  color: white;
+  background: #474747;
+}
+
+#timer {
+  position: fixed;
+  color: green;
+  font-weight: 800;
+  padding: 15px;
+  right: 30px;
+  bottom: 100px;
+  border: 3px solid green;
+  border-radius: 100%;
+}
+
+.stock-price {
+  font-size: 2em;
+  font-family: "Montserrat", sans-serif;
+}
+
+.configLogo {
+  margin: 5px;
+  cursor: pointer;
+}
+
+#targetImagenes {
+  margin: 1em;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 300px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+#targetImagenes::-webkit-scrollbar {
+  display: none;
+}
+
+.selectBox {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding: 1em;
+}
+
+#unselectedStocks {
+  border-right: 1px solid black;
+  background-color: rgba(180, 93, 93, 0.5019607843);
+}
+
+#selectedStocks {
+  border-left: 1px solid black;
+  background-color: rgba(100, 180, 93, 0.5019607843);
+}
+
+.navbar {
+  font-family: "Montserrat", sans-serif;
+  text-decoration: none;
+  font-size: 1.2em;
+}
+.navbar a {
+  color: inherit;
+}
+
+body {
+  background: linear-gradient(-45deg, #141414, #000000, #222f33, #041d17);
+  background-size: 400% 400%;
+  -webkit-animation: gradient 8s ease infinite;
+          animation: gradient 8s ease infinite;
+}
+
+[id^=price-] {
+  transition: all 0.5s ease-in-out;
+}
+
+@-webkit-keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+@-webkit-keyframes unfocus {
+  0% {
+    filter: none;
+  }
+  25% {
+    filter: blur(1px);
+  }
+  50% {
+    filter: blur(2px);
+  }
+  75% {
+    filter: blur(1px);
+  }
+  100% {
+    filter: none;
+  }
+}
+@keyframes unfocus {
+  0% {
+    filter: none;
+  }
+  25% {
+    filter: blur(1px);
+  }
+  50% {
+    filter: blur(2px);
+  }
+  75% {
+    filter: blur(1px);
+  }
+  100% {
+    filter: none;
+  }
+}
+@-webkit-keyframes bigsmall {
+  0% {
+    scale: 1;
+  }
+  50% {
+    scale: 1.1;
+  }
+  100% {
+    scale: 1;
+  }
+}
+@keyframes bigsmall {
+  0% {
+    scale: 1;
+  }
+  50% {
+    scale: 1.1;
+  }
+  100% {
+    scale: 1;
+  }
+}/*# sourceMappingURL=style.css.map */
