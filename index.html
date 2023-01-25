@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bolsa de Martin</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/fontawesome.min.css"
+    integrity="sha512-giQeaPns4lQTBMRpOOHsYnGw1tGVzbAIHUyHRgn7+6FmiEgGGjaG0T2LZJmAPMzRCl+Cug0ItQ2xDZpTmEc+CQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+    integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js"
+    integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+    integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"
+    integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
+  <script src="https://code.highcharts.com/stock/highstock.js"></script>
+  <script src="https://code.highcharts.com/stock/modules/data.js"></script>
+  <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
+  <script src="https://code.highcharts.com/stock/modules/accessibility.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <nav class="navbar bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand me-auto"></a>
+      <div id="username" class="m-2"></div>
+      <div class="ms-2">
+        <a role="button" id="logIn" data-bs-toggle="modal" data-bs-target="#loginModal"><i
+            class="fa-solid fa-right-to-bracket"></i></a>
+        <a role="button" id="logOut" class="d-none"><i class="fa-solid fa-right-from-bracket"></i></a>
+      </div>
+    </div>
+  </nav>
+  <main class="container-fluid" id="mainPanel">
+    <div class="row g-2 m-5">
+      <div class="p-3 col-sm-6 col-md-4 col-lg-3 d-none card-container" id="cardiberdrola">
+        <div class="card">
+          <img src="img/iberdrola.jpg" class="card-img-top" alt="Iberdrola">
+          <div class="card-body text-center">
+            <div class="mt-auto mb-auto">
+              <h5 class="card-title stock-price " id="price-iberdrola">
+              </h5>
+              <div class="d-flex align-items-center justify-content-around">
+                <a role="button" id="btn-iberdrola" class="btn btn-chart" title="Abrir gráfico histórico"><i class="fa-solid fa-chart-line"></i> <i class="fa-solid fa-calendar"></i></a>
+                <a role="button" id="btn-iberdrola-current" class="btn btn-chart-current" title="Abrir gráfico de hoy"> <i class="fa-solid fa-chart-line"></i> <i class="fa-solid fa-clock"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-3 col-sm-6 col-md-4 col-lg-3 d-none card-container" id="cardcellnex">
+        <div class="card">
+          <img src="img/cellnex.jpg" class="card-img-top" alt="Cellnex">
+          <div class="card-body text-center">
+            <div class="mt-auto mb-auto">
+              <h5 class="card-title stock-price " id="price-cellnex">
+              </h5>
+              <div class="d-flex align-items-center justify-content-around">
+                <a role="button" id="btn-cellnex" class="btn btn-chart" title="Abrir gráfico histórico"><i class="fa-solid fa-chart-line"></i> <i class="fa-solid fa-calendar"></i></a>
+                <a role="button" id="btn-cellnex-current" class="btn btn-chart-current" title="Abrir gráfico de hoy"> <i class="fa-solid fa-chart-line"></i> <i class="fa-solid fa-clock"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-3 col-sm-6 col-md-4 col-lg-3 d-none card-container" id="cardcaixabank">
+        <div class="card">
+          <img src="img/caixabank.jpg" class="card-img-top" alt="Caixabank">
+          <div class="card-body text-center">
+            <div class="mt-auto mb-auto">
+              <h5 class="card-title stock-price " id="price-caixabank">
+              </h5>
+              <div class="d-flex align-items-center justify-content-around">
+                <a role="button" id="btn-caixabank" class="btn btn-chart" title="Abrir gráfico histórico"><i class="fa-solid fa-chart-line"></i> <i class="fa-solid fa-calendar"></i></a>
+                <a role="button" id="btn-caixabank-current" class="btn btn-chart-current" title="Abrir gráfico de hoy"> <i class="fa-solid fa-chart-line"></i> <i class="fa-solid fa-clock"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-3 col-sm-6 col-md-4 col-lg-3 d-none card-container" id="cardtelefonica">
+        <div class="card">
+          <img src="img/telefonica.jpg" class="card-img-top" alt="Telefónica">
+          <div class="card-body text-center">
+            <div class="mt-auto mb-auto">
+              <h5 class="card-title stock-price " id="price-telefonica">
+              </h5>
+              <div class="d-flex align-items-center justify-content-around">
+                <a role="button" id="btn-telefonica" class="btn btn-chart" title="Abrir gráfico histórico"><i class="fa-solid fa-chart-line"></i> <i class="fa-solid fa-calendar"></i></a>
+                <a role="button" id="btn-telefonica-current" class="btn btn-chart-current" title="Abrir gráfico de hoy"> <i class="fa-solid fa-chart-line"></i> <i class="fa-solid fa-clock"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-3 col-sm-6 col-md-4 col-lg-3 d-none card-container" id="cardnaturgy">
+        <div class="card">
+          <img src="img/naturgy.jpg" class="card-img-top" alt="Naturgy">
+          <div class="card-body text-center">
+            <div class="mt-auto mb-auto">
+              <h5 class="card-title stock-price " id="price-naturgy">
+              </h5>
+              <div class="d-flex align-items-center justify-content-around">
+                <a role="button" id="btn-naturgy" class="btn btn-chart" title="Abrir gráfico histórico"><i class="fa-solid fa-chart-line"></i> <i class="fa-solid fa-calendar"></i></a>
+                <a role="button" id="btn-naturgy-current" class="btn btn-chart-current" title="Abrir gráfico de hoy"> <i class="fa-solid fa-chart-line"></i> <i class="fa-solid fa-clock"></i></a>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="p-3 col-sm-6 col-md-4  col-lg-3 d-none card-container" id="cardbbva">
+        <div class="card">
+          <img src="img/bbva.jpg" class="card-img-top" alt="BBVA">
+          <div class="card-body text-center">
+            <div class="mt-auto mb-auto">
+              <h5 class="card-title stock-price " id="price-bbva"></h5>
+              <div class="d-flex align-items-center justify-content-around">
+                <a role="button" id="btn-bbva" class="btn btn-chart" title="Abrir gráfico histórico"><i class="fa-solid fa-chart-line"></i> <i class="fa-solid fa-calendar"></i></a>
+                <a role="button" id="btn-bbva-current" class="btn btn-chart-current" title="Abrir gráfico de hoy"> <i class="fa-solid fa-chart-line"></i> <i class="fa-solid fa-clock"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-3 col-sm-6 col-md-4 col-lg-3 d-none card-container" id="cardinditex">
+        <div class="card">
+          <img src="img/inditex.jpg" class="card-img-top" alt="Inditex">
+          <div class="card-body text-center">
+            <div class="mt-auto mb-auto">
+              <h5 class="card-title stock-price " id="price-inditex">
+              </h5>
+              <div class="d-flex align-items-center justify-content-around">
+                <a role="button" id="btn-inditex" class="btn btn-chart" title="Abrir gráfico histórico"><i class="fa-solid fa-chart-line"></i> <i class="fa-solid fa-calendar"></i></a>
+                <a role="button" id="btn-inditex-current" class="btn btn-chart-current" title="Abrir gráfico de hoy"> <i class="fa-solid fa-chart-line"></i> <i class="fa-solid fa-clock"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-3 col-sm-6 col-md-4 col-lg-3 d-none card-container" id="cardsantander">
+        <div class="card">
+          <img src="img/santander.jpg" class="card-img-top" alt="Santander">
+          <div class="card-body text-center">
+            <div class="mt-auto mb-auto">
+              <h5 class="card-title stock-price " id="price-santander">
+              </h5>
+              <div class="d-flex align-items-center justify-content-around">
+                <a role="button" id="btn-santander" class="btn btn-chart" title="Abrir gráfico histórico"><i class="fa-solid fa-chart-line"></i> <i class="fa-solid fa-calendar"></i></a>
+                <a role="button" id="btn-santander-current" class="btn btn-chart-current" title="Abrir gráfico de hoy"> <i class="fa-solid fa-chart-line"></i> <i class="fa-solid fa-clock"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-3 col-sm-6 col-md-4 col-lg-3 d-none card-container" id="cardrepsol">
+        <div class="card ">
+          <img src="img/repsol.jpg" class="card-img-top" alt="Repsol">
+          <div class="card-body text-center">
+            <div class="mt-auto mb-auto">
+              <h5 class="card-title stock-price " id="price-repsol"></h5>
+              <div class="d-flex align-items-center justify-content-around">
+                <a role="button" id="btn-repsol" class="btn btn-chart" title="Abrir gráfico histórico"><i class="fa-solid fa-chart-line"></i> <i class="fa-solid fa-calendar"></i></a>
+                <a role="button" id="btn-repsol-current" class="btn btn-chart-current" title="Abrir gráfico de hoy"> <i class="fa-solid fa-chart-line"></i> <i class="fa-solid fa-clock"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-3 col-sm-6 col-md-4 col-lg-3 d-none card-container" id="cardferrovial">
+        <div class="card">
+          <img src="img/ferrovial.jpg" class="card-img-top" alt="Ferrpvial">
+          <div class="card-body text-center">
+            <div class="mt-auto mb-auto">
+              <h5 class="card-title stock-price " id="price-ferrovial">
+              </h5>
+              <div class="d-flex align-items-center justify-content-around">
+                <a role="button" id="btn-ferrovial" class="btn btn-chart" title="Abrir gráfico histórico"><i class="fa-solid fa-chart-line"></i> <i class="fa-solid fa-calendar"></i></a>
+                <a role="button" id="btn-ferrovial-current" class="btn btn-chart-current" title="Abrir gráfico de hoy"> <i class="fa-solid fa-chart-line"></i> <i class="fa-solid fa-clock"></i></a>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+
+  <!-- Modal Login/SignUp -->
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link text-primary active" aria-current="page" id="logInBtn" data-bs-toggle="tab"
+                href="#logInTab" role="tab" aria-controls="logInTab" aria-selected="true">Log In <i
+                  class="fa-solid fa-right-to-bracket"></i></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-success" id="signUpBtn" data-bs-toggle="tab" href="#signUpTab" role="tab"
+                aria-controls="signUpTab" aria-selected="false">Sign Up <i class="fa-solid fa-user-plus"></i></a>
+            </li>
+          </ul>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body tab-content">
+
+          <div id="logInTab" class="tab-pane fade show active" role="tabpanel" aria-labelledby="logInTab">
+            <form id="loginForm">
+              <div class="mb-3">
+                <label for="emailLogIn" class="form-label">Email address</label>
+                <input type="email" class="form-control" name="email" id="emailLogIn" aria-describedby="emailHelp">
+                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+              </div>
+              <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Log In</button>
+              </div>
+            </form>
+          </div>
+          <div id="signUpTab" class="tab-pane fade" role="tabpanel" aria-labelledby="signUpTab">
+            <form id="signUpForm">
+              <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" name="name" id="name">
+                <label for="emailSignUp" class="form-label">Email address</label>
+                <input type="email" class="form-control" name="email" id="emailSignUp" aria-describedby="emailHelp">
+                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" id="password">
+              </div>
+              <div class="mb-3">
+                <button type="submit" class="btn btn-success">Sign Up!</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="d-none modal-footer alert alert-danger" id="loginAlert" role="alert">
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Modal settings-->
+  <div class="modal fade" id="settingsModal" aria-labelledby="settingsModalLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row text-center">
+            <div class="col-6 text-danger">
+              <h1><i class="fa-solid fa-eye-slash"></i></h1>
+            </div>
+            <div class="col-6 text-success">
+              <h1><i class="fa-solid fa-eye"></i></h1>
+            </div>
+          </div>
+          <div class="row" id="targetImagenes">
+            <div class="col-6 selectBox" id="unselectedStocks">
+              <img class="w-100 configLogo" src="img/bbva.jpg" alt="" id="bbva">
+              <img class="w-100 configLogo" src="img/iberdrola.jpg" alt="" id="iberdrola">
+              <img class="w-100 configLogo" src="img/inditex.jpg" alt="" id="inditex">
+              <img class="w-100 configLogo" src="img/santander.jpg" alt="" id="santander">
+              <img class="w-100 configLogo" src="img/naturgy.jpg" alt="" id="naturgy">
+              <img class="w-100 configLogo" src="img/cellnex.jpg" alt="" id="cellnex">
+              <img class="w-100 configLogo" src="img/caixabank.jpg" alt="" id="caixabank">
+              <img class="w-100 configLogo" src="img/telefonica.jpg" alt="" id="telefonica">
+              <img class="w-100 configLogo" src="img/repsol.jpg" alt="" id="repsol">
+              <img class="w-100 configLogo" src="img/ferrovial.jpg" alt="" id="ferrovial">
+
+            </div>
+            <div class="col-6 selectBox" id="selectedStocks">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 text-center">
+              <button class="btn btn-primary" id="saveSettingsBtn" data-bs-dismiss="modal">Guardar</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Modal chart-->
+  <div class="modal fade" id="modalChart" aria-labelledby="modalChartLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="containerGrafico">
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="timer"></div>
+  <div id="settingsButton" title="Ajustes de visibilidad" role="button" data-bs-toggle="modal"
+    data-bs-target="#settingsModal">
+    <i class="fa-solid fa-wrench"></i>
+  </div>
+</body>
+<script>
+
+  var api = 'http://localhost:8000'
+  var updateInterval;
+  var updateTime;
+  var logged = false
+  var loginModal = new bootstrap.Modal(document.getElementById('loginModal'), {
+    keyboard: false
+  })
+  var settingsModal = new bootstrap.Modal(document.getElementById('settingsModal'), {
+    keyboard: false
+  })
+  var modalChart = new bootstrap.Modal(document.getElementById('modalChart'), {
+    keyboard: false
+  })
+
+  var chart;
+  var empresas;
+
+
+  if (localStorage.getItem("stocksSelected") !== null) {
+    JSON.parse(localStorage.stocksSelected).forEach(item => {
+      document.getElementById(`card${item}`).classList.remove('d-none')
+      document.getElementById('selectedStocks').appendChild(document.getElementById(`${item}`))
+    })
+  }
+
+
+  $(function () {
+    $(".configLogo").draggable({
+      scroll: false,
+      axis: "x",
+      containment: '#targetImagenes',
+      revert: "invalid",
+    });
+    $(".configLogo").sortable({
+      axis: "x"
+    })
+    $("#selectedStocks").droppable({
+      accept: ".configLogo",
+      drop: function (e, ui) {
+        $(e.target).append($(ui.draggable).detach().css({ 'top': '', 'left': '' }))
+      }
+    })
+    $("#unselectedStocks").droppable({
+      accept: ".configLogo",
+      drop: function (e, ui) {
+        $(e.target).append($(ui.draggable).detach().css({ 'top': '', 'left': '' }))
+      }
+    })
+  });
+
+  if (/Android|iPhone/i.test(navigator.userAgent)) {
+    [...document.getElementsByClassName('configLogo')].forEach(elem => {
+      elem.addEventListener('click', () => {
+        const id = event.currentTarget.parentNode.id
+        if (id == 'selectedStocks') {
+          document.getElementById('unselectedStocks').appendChild(event.currentTarget)
+        } else {
+          document.getElementById('selectedStocks').appendChild(event.currentTarget)
+        }
+      })
+    })
+  }
+
+  setInterval(async () => {
+    await refreshData()
+    resetTimer()
+  }, 60 * 1000)
+
+  refreshData()
+  resetTimer()
+
+  function getCookie(name) {
+    var cookieArr = document.cookie.split(";");
+    for (var i = 0; i < cookieArr.length; i++) {
+      var cookiePair = cookieArr[i].split("=");
+      if (name == cookiePair[0].trim()) {
+        return decodeURIComponent(cookiePair[1]);
+      }
+    }
+    return null;
+  }
+  function eraseCookie(name) {
+    document.cookie = name + '=; Max-Age=0'
+  }
+
+  async function register() {
+    var data = new FormData(document.getElementById('signUpForm'))
+    const res = await fetch(`${api}/api/register`, {
+      method: 'POST',
+      body: data,
+      Accept: 'application/json'
+    })
+    return res.json()
+  }
+
+  async function logIn() {
+    var data = new FormData(document.getElementById('loginForm'))
+    const res = await fetch(`${api}/api/login`, {
+      method: 'POST',
+      body: data,
+      Accept: 'application/json'
+    })
+    return res.json()
+  }
+  async function fetchEmpresas() {
+    const res = await fetch(`${api}/api/empresas`, {
+      headers: {
+        Authorization: 'Bearer ' + getCookie('access_token'),
+        Accept: 'application/json'
+      }
+    })
+    return res.json()
+  } 
+  async function fetchStockData(id_empresa) {
+    const res = await fetch(`${api}/api/acciones/empresa/${id_empresa}`, {
+      headers: {
+        Authorization: 'Bearer ' + getCookie('access_token'),
+        Accept: 'application/json'
+      }
+    })
+    return res.json()
+  }
+  async function fetchTodayStockData(id_empresa){
+    const res = await fetch(`${api}/api/acciones/today/empresa/${id_empresa}`, {
+      headers: {
+        Authorization: 'Bearer ' + getCookie('access_token'),
+        Accept: 'application/json'
+      }
+    })
+    return res.json()
+  }
+  async function fetchHistoricStockData(id_empresa){
+    const res = await fetch(`${api}/api/acciones/historico/empresa/${id_empresa}`, {
+      headers: {
+        Authorization: 'Bearer ' + getCookie('access_token'),
+        Accept: 'application/json'
+      }
+    })
+    return res.json()
+  }
+
+  
+  async function crearChart(empresa,tipo) {
+    const idEmpresa = empresas.find(emp => (emp.nombre).toLowerCase() == empresa.toLowerCase()).id
+    var dataSeries = []
+    for(item of JSON.parse(localStorage.stocksSelected)){
+      var empresa = empresas.filter(emp => (emp.nombre).toLowerCase() == item.toLowerCase())[0]
+      let visibility = (empresa.id == idEmpresa)
+      let valores
+      if (tipo == 'historico'){
+        valores = await fetchHistoricStockData(empresa.id)
+      }else{
+        valores = empresa.valores
+      }
+      dataSeries.push({
+        name: item.toUpperCase(),
+        showInLegend: true,
+        data: valores,
+        visible: visibility,
+        tooltip: {
+          valueDecimals: 2
+        }
+      });
+    }
+
+    var options = {
+      rangeSelector: {
+        selected: 1
+      },
+      title: {
+        text: `Acciones`
+      },
+      legend: {
+        align: "center",
+        enabled: true
+      },
+      series: dataSeries
+    }
+    //// Create the chart
+    chart = Highcharts.stockChart('containerGrafico', options);
+  }
+
+  function UpdateCardEmpresa(empresa) {
+    const latest_value = empresa.valores[(empresa.valores).length - 1][1]
+    const prev = empresa.valores[(empresa.valores).length - 2][1]
+    document.getElementById(`price-${(empresa.nombre).toLowerCase()}`).innerText = latest_value + '€';
+    let color = ((parseFloat(latest_value) - parseFloat(prev)) > 0) ?  '#198754' : '#dc3545'
+    document.getElementById(`price-${(empresa.nombre).toLowerCase()}`).style.color = color
+    setTimeout(() => {
+      document.getElementById(`price-${(empresa.nombre).toLowerCase()}`).style.color= 'white'
+    }, 5000)
+  }
+
+  function UpdateCardsEmpresas() {
+    if (!logged) {
+      [...document.querySelectorAll('[id^="price-"]')].forEach(item => item.innerHTML = '')
+      return
+    }
+    empresas.forEach(empresa => UpdateCardEmpresa(empresa))
+  }
+
+
+  [...document.getElementsByClassName('btn-chart')].forEach(elem => {
+    elem.addEventListener('click', async() => {
+      if (!logged) {
+        loginModal.show()
+        return
+      }
+      if (chart != undefined) {
+        chart.destroy()
+      }
+      await crearChart(elem.id.split('-')[1],'historico')
+      modalChart.show()
+    })
+  });
+
+  [...document.getElementsByClassName('btn-chart-current')].forEach(elem => {
+    elem.addEventListener('click', () => {
+      if (!logged){
+        loginModal.show()
+        return
+      }
+      if (chart != undefined){
+        chart.destroy()
+      }
+      crearChart(elem.id.split('-')[1])
+      modalChart.show()
+    })
+  })
+
+  function resetTimer() {
+    clearInterval(updateInterval)
+    updateTime = 60
+    updateInterval = setInterval(() => {
+      updateTime--;
+      updateTime = updateTime < 0 ? 0 : updateTime
+      document.getElementById('timer').innerText = updateTime
+    }, 1000)
+  }
+
+  document.getElementById('signUpForm').addEventListener('submit', async ()=>{
+    event.preventDefault()
+    const res = await register()
+    if (res.access_token == undefined){
+      document.getElementById('loginAlert').classList.remove('d-none')
+      document.getElementById('loginAlert').innerText = res.message
+      return
+    }
+    document.cookie = `user = ${res.user.name}; max-age=7200`
+    document.cookie = `access_token = ${res.access_token}; max-age=7200`
+    loginModal.hide()
+    $(".modal-backdrop").remove()
+  })
+
+  document.getElementById('logOut').addEventListener('click', () => {
+    eraseCookie('access_token')
+    eraseCookie('user')
+    document.getElementById('username').innerHTML = ''
+  })
+
+  document.getElementById('loginForm').addEventListener('submit', async () => {
+    event.preventDefault()
+    const res = await logIn()
+    if (res.access_token == undefined){
+      document.getElementById('loginAlert').classList.remove('d-none')
+      document.getElementById('loginAlert').innerText = res.message
+      return
+    }
+    document.cookie = `user = ${res.user.name}; max-age=7200`
+    document.cookie = `access_token = ${res.access_token}; max-age=7200`
+    loginModal.hide()
+    $(".modal-backdrop").remove()
+  })
+
+  document.getElementById('saveSettingsBtn').addEventListener('click', () => {
+    var elegidos = [...document.getElementById('selectedStocks').children].map(item => item.id)
+    elegidos.forEach(item => document.getElementById(`card${item}`).classList.remove('d-none'))
+    var noElegidos = [...document.getElementById('unselectedStocks').children].map(item => item.id)
+    noElegidos.forEach(item => document.getElementById(`card${item}`).classList.add('d-none'))
+    localStorage.setItem("stocksSelected", JSON.stringify(elegidos))
+    UpdateCardsEmpresas()
+  })
+
+
+  //Listener para cambiar el estado de los elementos cuando se está logueado o no
+  var cookieListener = setInterval(async () => {
+    if (getCookie('access_token') != null && !logged) {
+      logged = true;
+      document.getElementById('username').innerText = getCookie('user');
+      await refreshData()
+      document.getElementById('logOut').classList.remove('d-none')
+      document.getElementById('logIn').classList.add('d-none')
+    } else if (getCookie('access_token') == null && logged) {
+      logged = false
+      document.getElementById('username').innerText = ''
+      UpdateCardsEmpresas()
+      document.getElementById('logIn').classList.remove('d-none')
+      document.getElementById('logOut').classList.add('d-none')
+      loginModal.show()
+    }
+  }, 100)
+
+
+  async function refreshData() {
+    if (!logged){
+      return
+    }
+    if (empresas == undefined) {
+      empresas = await fetchEmpresas()
+    }
+    for (var empresa of empresas) {
+      empresa['valores'] = await fetchTodayStockData(empresa.id)
+    }
+    UpdateCardsEmpresas()
+  }
+
+
+</script>
+
+</html>

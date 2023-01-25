@@ -5,7 +5,14 @@
     color: transparent
     
     &:hover
-        color: blue !important
+        color: green !important
+        scale: 1.1
+.btn-chart-current
+    font-size: 1.5em
+    transition: 0.5s all
+    color: transparent
+    &:hover
+        color: green !important
         scale: 1.1
 .card-container
     display: flex
@@ -28,6 +35,9 @@
             filter: none
         .btn-chart
             color: red
+            animation: bigsmall 2s ease infinite
+        .btn-chart-current
+            color: blue
             animation: bigsmall 2s ease infinite
 .card-body
     display: flex
@@ -90,7 +100,8 @@ body
     background: linear-gradient(-45deg, #141414, #000000, #222f33, #041d17)
     background-size: 400% 400%
     animation: gradient 8s ease infinite
-
+[id^="price-"]
+    transition: all 0.5s ease-in-out 
 @keyframes gradient
     0%
         background-position: 0% 50%
