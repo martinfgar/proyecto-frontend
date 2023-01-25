@@ -5,7 +5,14 @@
     color: transparent
     
     &:hover
-        color: blue !important
+        color: green !important
+        scale: 1.1
+.btn-chart-current
+    font-size: 1.5em
+    transition: 0.5s all
+    color: transparent
+    &:hover
+        color: green !important
         scale: 1.1
 .card-container
     display: flex
@@ -28,6 +35,9 @@
             filter: none
         .btn-chart
             color: red
+            animation: bigsmall 2s ease infinite
+        .btn-chart-current
+            color: blue
             animation: bigsmall 2s ease infinite
 .card-body
     display: flex
