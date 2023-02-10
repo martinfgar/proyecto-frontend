@@ -215,12 +215,12 @@
           <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
               <a class="nav-link text-primary active" aria-current="page" id="logInBtn" data-bs-toggle="tab"
-                href="#logInTab" role="tab" aria-controls="logInTab" aria-selected="true">Log In <i
+                href="#logInTab" role="tab" aria-controls="logInTab" aria-selected="true">Login<i
                   class="fa-solid fa-right-to-bracket"></i></a>
             </li>
             <li class="nav-item">
               <a class="nav-link text-success" id="signUpBtn" data-bs-toggle="tab" href="#signUpTab" role="tab"
-                aria-controls="signUpTab" aria-selected="false">Sign Up <i class="fa-solid fa-user-plus"></i></a>
+                aria-controls="signUpTab" aria-selected="false">Registrarse<i class="fa-solid fa-user-plus"></i></a>
             </li>
           </ul>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -236,29 +236,29 @@
                 <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
               </div>
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <label for="exampleInputPassword1" class="form-label">Contraseña</label>
                 <input type="password" name="password" class="form-control" id="exampleInputPassword1">
               </div>
               <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Log In</button>
+                <button type="submit" class="btn btn-primary">Login</button>
               </div>
             </form>
           </div>
           <div id="signUpTab" class="tab-pane fade" role="tabpanel" aria-labelledby="signUpTab">
             <form id="signUpForm">
               <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
+                <label for="name" class="form-label">Nombre</label>
                 <input type="text" class="form-control" name="name" id="name">
-                <label for="emailSignUp" class="form-label">Email address</label>
+                <label for="emailSignUp" class="form-label">Email</label>
                 <input type="email" class="form-control" name="email" id="emailSignUp" aria-describedby="emailHelp">
                 <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
               </div>
               <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
+                <label for="password" class="form-label">Contraseña</label>
                 <input type="password" name="password" class="form-control" id="password">
               </div>
               <div class="mb-3">
-                <button type="submit" class="btn btn-success">Sign Up!</button>
+                <button type="submit" class="btn btn-success">Registrarse</button>
               </div>
             </form>
           </div>
@@ -417,7 +417,7 @@
     return null;
   }
   function eraseCookie(name) {
-    document.cookie = name + '=; expires = Thu, 01 Jan 1970 00:00:00 GMT'
+    document.cookie = name + '=;Path=/; max-age=0; expires = Thu, 01 Jan 1970 00:00:00 GMT'
   }
 
   async function register() {
